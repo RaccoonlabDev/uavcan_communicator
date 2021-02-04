@@ -3,6 +3,7 @@ project(drone_communicators)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  geometry_msgs
   message_generation
 )
 
@@ -14,11 +15,13 @@ add_message_files(
   RawAirData.msg
   StaticPressure.msg
   StaticTemperature.msg
+  Fix.msg
 )
 
 generate_messages(
   DEPENDENCIES
   std_msgs
+  geometry_msgs
 )
 
 catkin_package(

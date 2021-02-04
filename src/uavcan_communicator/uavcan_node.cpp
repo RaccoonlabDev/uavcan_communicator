@@ -16,7 +16,6 @@
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/Joy.h>
-#include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/MagneticField.h>
 #include <std_msgs/Bool.h>
 #include <geometry_msgs/Twist.h>
@@ -24,6 +23,8 @@
 #include <drone_communicators/StaticPressure.h>
 #include <drone_communicators/StaticTemperature.h>
 #include <drone_communicators/RawAirData.h>
+#include <drone_communicators/Fix.h>
+
 
 
 extern uavcan::ICanDriver& getCanDriver();
@@ -191,30 +192,19 @@ public:
 
 class GPS: public RosToUavcanConverter{
     typedef uavcan::equipment::gnss::Fix OUT_UAVCAN_MSG;
-    typedef sensor_msgs::NavSatFix IN_ROS_MSG;
+    typedef drone_communicators::Fix IN_ROS_MSG;
     static constexpr const char* ROS_TOPIC = "/uav/gps_position";
 
     uavcan::Publisher<OUT_UAVCAN_MSG> pub_;
     OUT_UAVCAN_MSG out_uavcan_msg_;
 
     void callback(IN_ROS_MSG::Ptr in_ros_msg){
-        uint64_t latitude = in_ros_msg->latitude * 100000000;
-        uint64_t longitude = in_ros_msg->longitude * 100000000;
-        uint64_t altitude = in_ros_msg->altitude * 1000;
-        std::vector<float> ned_velocity(3);
-        // ned_velocity[0] = ;
-        // ned_velocity[1] = ;
-        // ned_velocity[2] = ;
-        // uint64_t ned_velocity = [self.velocity.linear.x,
-        //                 self.velocity.linear.y,
-        //                 self.velocity.linear.z]
-
-        out_uavcan_msg_.latitude_deg_1e8 = latitude;
-        out_uavcan_msg_.longitude_deg_1e8 = longitude;
-        out_uavcan_msg_.height_msl_mm = altitude;
-        out_uavcan_msg_.ned_velocity[0] = ned_velocity[0];
-        out_uavcan_msg_.ned_velocity[1] = ned_velocity[1];
-        out_uavcan_msg_.ned_velocity[2] = ned_velocity[2];
+        out_uavcan_msg_.latitude_deg_1e8 = in_ros_msg->latitude_deg_1e8;
+        out_uavcan_msg_.longitude_deg_1e8 = in_ros_msg->longitude_deg_1e8;
+        out_uavcan_msg_.height_msl_mm = in_ros_msg->height_msl_mm;
+        out_uavcan_msg_.ned_velocity[0] = in_ros_msg->ned_velocity.x;
+        out_uavcan_msg_.ned_velocity[1] = in_ros_msg->ned_velocity.y;
+        out_uavcan_msg_.ned_velocity[2] = in_ros_msg->ned_velocity.z;
         out_uavcan_msg_.sats_used = 10;
         out_uavcan_msg_.status = 3;
         out_uavcan_msg_.pdop = 99;
