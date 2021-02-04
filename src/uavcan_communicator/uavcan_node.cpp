@@ -62,13 +62,16 @@ class Actuators: public UavcanToRosConverter{
             ros_msg_.axes[2] = uavcan_msg.cmd[2] / 8191.0;
             ros_msg_.axes[3] = uavcan_msg.cmd[3] / 8191.0;
 
-            ros_msg_.axes[4] = 0.5 + (uavcan_msg.cmd[4] - 4096) / 8191.0;
-            ros_msg_.axes[5] = (uavcan_msg.cmd[5] == -1) ? 0 : uavcan_msg.cmd[5] / 4096 - 1;
-            ros_msg_.axes[6] = (uavcan_msg.cmd[6] == -1) ? 0 : uavcan_msg.cmd[6] / 4096 - 1;
+            ros_msg_.axes[4] = 0.5 + (uavcan_msg.cmd[4] - 4096.0) / 8191.0;
+            ros_msg_.axes[5] = (uavcan_msg.cmd[5] == -1) ? 0 : uavcan_msg.cmd[5] / 4096.0 - 1.0;
+            ros_msg_.axes[6] = (uavcan_msg.cmd[6] == -1) ? 0 : uavcan_msg.cmd[6] / 4096.0 - 1.0;
 
             ros_msg_.axes[7] = uavcan_msg.cmd[7] / 8191.0 / 0.75;
         }else{
-            ros_msg_.axes[4] = 0.5; // aileron default position is 0.5
+            ros_msg_.axes[4] = 0.5;
+            ros_msg_.axes[5] = 0.0;
+            ros_msg_.axes[6] = 0.0;
+            ros_msg_.axes[7] = -1.0;
         }
 
         pub_.publish(ros_msg_);
