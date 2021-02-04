@@ -1,0 +1,6 @@
+[submodule "libs/libuavcan"]
+	path = libs/libuavcan
+	url = https://github.com/UAVCAN/libuavcan
+[submodule "libs/platform_specific_components"]
+	path = libs/platform_specific_components
+	url = https://github.com/UAVCAN/platform_specific_components
