@@ -3,11 +3,6 @@ project(drone_communicators)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  rospy
-  std_msgs
-  mav_msgs
-  sensor_msgs
-  geometry_msgs
   message_generation
 )
 
@@ -29,7 +24,20 @@ generate_messages(
 catkin_package(
 )
 
-
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${CMAKE_CURRENT_SOURCE_DIR}/libs/platform_specific_components/linux/libuavcan/include
+)
+
+add_executable(${PROJECT_NAME}_uavcan_communicator src/uavcan_communicator/platform_linux.cpp src/uavcan_communicator/uavcan_node.cpp)
+target_include_directories(${PROJECT_NAME}_uavcan_communicator
+    BEFORE
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs/platform_specific_components/linux/libuavcan/uavcan_linux
+)
+set_target_properties(${PROJECT_NAME}_uavcan_communicator PROPERTIES OUTPUT_NAME uavcan_communicator PREFIX "")
+add_dependencies(${PROJECT_NAME}_uavcan_communicator ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(${PROJECT_NAME}_uavcan_communicator
+    ${catkin_LIBRARIES}
+    ${UAVCAN_LIB}
+    rt
 )
