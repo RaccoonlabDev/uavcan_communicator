@@ -16,17 +16,28 @@ It has minimal sensors set. Topics are:
 
 # Preparation
 
-1. Install libuavcan v0.1
-
-2. Clone this repository using recursive. Update submodules every time you pull this repo:
+1. Clone this repository using recursive. Update submodules every time you pull this repo:
 
 ```
+cd catkin_ws/src
 git clone --recursive https://github.com/InnopolisAero/innopolis_vtol_dynamics.git .
-git submodule init
-git submodule update --recursive
+git submodule update --init --recursive
 ```
+
+2. Install required packages
+
+apt-get install can-utils
+pip install -r requirements.txt
+
+3. Build libuavcan v0.1 as a static library and install it on the system globally. Use [official instuction](https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application)
 
 # Running
 
-If you has Innopolis sniffer, use scipt `./scripts/create_slcan.sh`.
+1. At first, you need to create virtual can port
+If you has [Innopolis sniffer](), just use scipt `./scripts/create_slcan.sh`.
 Otherwise you should use `./scripts/create_slcan.sh /dev/ttyACMx`, where `x` is index of your tty device.
+
+2. Then, run typing:
+```
+rosrun drone_communicators uavcan_communicator
+```
