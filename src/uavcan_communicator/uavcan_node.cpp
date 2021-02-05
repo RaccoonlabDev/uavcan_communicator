@@ -26,7 +26,6 @@
 #include <drone_communicators/Fix.h>
 
 
-
 extern uavcan::ICanDriver& getCanDriver();
 extern uavcan::ISystemClock& getSystemClock();
 constexpr unsigned NodeMemoryPoolSize = 16384;
@@ -117,8 +116,7 @@ class BaroStaticPressure: public RosToUavcanConverter{
     OUT_UAVCAN_MSG out_uavcan_msg_;
 
     void callback(IN_ROS_MSG::Ptr in_ros_msg){
-        auto pressure = in_ros_msg->static_pressure * 100 + std::rand() / float(RAND_MAX);
-        out_uavcan_msg_.static_pressure = pressure;
+        out_uavcan_msg_.static_pressure = in_ros_msg->static_pressure;
         out_uavcan_msg_.static_pressure_variance = 1;
         int pub_res = pub_.broadcast(out_uavcan_msg_);
         if (pub_res < 0){
@@ -142,8 +140,7 @@ class BaroStaticTemperature: public RosToUavcanConverter{
     OUT_UAVCAN_MSG out_uavcan_msg_;
 
     void callback(IN_ROS_MSG::Ptr in_ros_msg){
-        auto temperature = in_ros_msg->static_temperature * 100 + std::rand() / float(RAND_MAX);
-        out_uavcan_msg_.static_temperature = temperature;
+        out_uavcan_msg_.static_temperature = in_ros_msg->static_temperature;
         out_uavcan_msg_.static_temperature_variance = 1;
         int pub_res = pub_.broadcast(out_uavcan_msg_);
         if (pub_res < 0){
@@ -167,18 +164,9 @@ class DiffPressure: public RosToUavcanConverter{
     OUT_UAVCAN_MSG out_uavcan_msg_;
 
     void callback(IN_ROS_MSG::Ptr in_ros_msg){
-        double static_pressure = in_ros_msg->static_pressure * 100;
-        double static_pressure_noise = std::rand() / float(RAND_MAX);
-
-        double differential_pressure = in_ros_msg->differential_pressure * 100;
-        double differential_pressure_noise = std::rand() / float(RAND_MAX);
-
-        double temperature = 24; //self.temperature.static_temperature;
-        double temperature_noise = std::rand() / float(RAND_MAX);
-
-        out_uavcan_msg_.static_air_temperature = temperature + temperature_noise;
-        out_uavcan_msg_.static_pressure = static_pressure + static_pressure_noise;
-        out_uavcan_msg_.differential_pressure = differential_pressure + differential_pressure_noise;
+        out_uavcan_msg_.static_air_temperature = in_ros_msg->static_air_temperature;
+        out_uavcan_msg_.static_pressure = in_ros_msg->static_pressure;
+        out_uavcan_msg_.differential_pressure = in_ros_msg->differential_pressure;
 
         int pub_res = pub_.broadcast(out_uavcan_msg_);
         if (pub_res < 0){
@@ -208,9 +196,9 @@ class GPS: public RosToUavcanConverter{
         out_uavcan_msg_.ned_velocity[0] = in_ros_msg->ned_velocity.x;
         out_uavcan_msg_.ned_velocity[1] = in_ros_msg->ned_velocity.y;
         out_uavcan_msg_.ned_velocity[2] = in_ros_msg->ned_velocity.z;
-        out_uavcan_msg_.sats_used = 10;
-        out_uavcan_msg_.status = 3;
-        out_uavcan_msg_.pdop = 99;
+        out_uavcan_msg_.sats_used = in_ros_msg->sats_used;
+        out_uavcan_msg_.status = in_ros_msg->status;
+        out_uavcan_msg_.pdop = in_ros_msg->pdop;
         int pub_res = pub_.broadcast(out_uavcan_msg_);
         if (pub_res < 0){
             std::cerr << "GPS publication failure: " << pub_res << std::endl;
@@ -306,14 +294,7 @@ int main(int argc, char** argv){
     }
 
 
-    // 1.0. Node status
-    // uavcan::Subscriber<uavcan::protocol::NodeStatus> node_status_sub(uavcan_node);
-    // const int node_status_start_res = node_status_sub.start(
-    //     [&](const uavcan::ReceivedDataStructure<uavcan::protocol::NodeStatus>& msg)
-    //     {
-    //         std::cout << msg << std::endl;
-    //     });
-
+    // 1.0. Communicators
     Actuators actuators(ros_node, uavcan_node);
     BaroStaticPressure baroStaticPressure(ros_node, uavcan_node);
     BaroStaticTemperature baroStaticTemperature(ros_node, uavcan_node);
@@ -325,7 +306,6 @@ int main(int argc, char** argv){
     // 2. Spinner
     uavcan_node.setModeOperational();
     uavcan_node.setHealthOk();
-    std::cout << "Hello world! " << uavcan_node.getNodeID().get() + 0 << std::endl;
     while (ros::ok()){
         const int res = uavcan_node.spin(uavcan::MonotonicDuration::fromMSec(2));
         ros::spinOnce();
