@@ -31,7 +31,17 @@ apt-get install can-utils
 pip install -r requirements.txt
 ```
 
-3. Build libuavcan v0.1 as a static library and install it on the system globally. Use [official instuction](https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application)
+3. Build libuavcan v0.1 as a static library and install it on the system globally. Use [official instuction](https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application):
+```
+git clone --single-branch --branch legacy-v0 https://github.com/UAVCAN/libuavcan.git
+cd libuavcan
+git submodule update --init
+mkdir build
+cd build
+cmake ..
+make -j8
+sudo make install
+```
 
 # Running
 
