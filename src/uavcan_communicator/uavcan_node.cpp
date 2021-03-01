@@ -190,18 +190,24 @@ class GPS: public RosToUavcanConverter{
     OUT_UAVCAN_MSG out_uavcan_msg_;
 
     void callback(IN_ROS_MSG::Ptr in_ros_msg){
-        out_uavcan_msg_.latitude_deg_1e8 = in_ros_msg->latitude_deg_1e8;
-        out_uavcan_msg_.longitude_deg_1e8 = in_ros_msg->longitude_deg_1e8;
-        out_uavcan_msg_.height_msl_mm = in_ros_msg->height_msl_mm;
-        out_uavcan_msg_.ned_velocity[0] = in_ros_msg->ned_velocity.x;
-        out_uavcan_msg_.ned_velocity[1] = in_ros_msg->ned_velocity.y;
-        out_uavcan_msg_.ned_velocity[2] = in_ros_msg->ned_velocity.z;
-        out_uavcan_msg_.sats_used = in_ros_msg->sats_used;
-        out_uavcan_msg_.status = in_ros_msg->status;
-        out_uavcan_msg_.pdop = in_ros_msg->pdop;
-        int pub_res = pub_.broadcast(out_uavcan_msg_);
-        if (pub_res < 0){
-            std::cerr << "GPS publication failure: " << pub_res << std::endl;
+        const double PUB_PERIOD = 0.2;
+        static double prev_time_sec = 0;
+        double crnt_time_sec = ros::Time::now().toSec();
+        if(crnt_time_sec - prev_time_sec > PUB_PERIOD){
+            out_uavcan_msg_.latitude_deg_1e8 = in_ros_msg->latitude_deg_1e8;
+            out_uavcan_msg_.longitude_deg_1e8 = in_ros_msg->longitude_deg_1e8;
+            out_uavcan_msg_.height_msl_mm = in_ros_msg->height_msl_mm;
+            out_uavcan_msg_.ned_velocity[0] = in_ros_msg->ned_velocity.x;
+            out_uavcan_msg_.ned_velocity[1] = in_ros_msg->ned_velocity.y;
+            out_uavcan_msg_.ned_velocity[2] = in_ros_msg->ned_velocity.z;
+            out_uavcan_msg_.sats_used = in_ros_msg->sats_used;
+            out_uavcan_msg_.status = in_ros_msg->status;
+            out_uavcan_msg_.pdop = in_ros_msg->pdop;
+            int pub_res = pub_.broadcast(out_uavcan_msg_);
+            if (pub_res < 0){
+                std::cerr << "GPS publication failure: " << pub_res << std::endl;
+            }
+            prev_time_sec = crnt_time_sec;
         }
     }
 public:
