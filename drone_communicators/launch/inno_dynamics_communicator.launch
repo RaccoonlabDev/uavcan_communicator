@@ -1,0 +1,4 @@
+<launch>
+    <rosparam file="$(find drone_communicators)/config/params_inno_dynamics.yaml" command="load" ns="uavcan/" />
+    <node pkg="drone_communicators" type="uavcan_communicator" name="px4_uavcan_communicator" output="screen"/>
+</launch>

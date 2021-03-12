@@ -1,6 +1,6 @@
-[submodule "libs/libuavcan"]
-	path = libs/libuavcan
+[submodule "drone_communicators/libs/libuavcan"]
+	path = drone_communicators/libs/libuavcan
 	url = https://github.com/UAVCAN/libuavcan
-[submodule "libs/platform_specific_components"]
-	path = libs/platform_specific_components
+[submodule "drone_communicators/libs/platform_specific_components"]
+	path = drone_communicators/libs/platform_specific_components
 	url = https://github.com/UAVCAN/platform_specific_components

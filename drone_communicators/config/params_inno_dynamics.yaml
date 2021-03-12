@@ -1,0 +1,12 @@
+uavcan_node_id:           42
+uavcan_node_name:         "inno.dynamics"
+bridges:                  ["Actuators",             "/uav/actuators",
+                           "Arm",                   "/uav/arm",
+
+                           "BaroStaticPressure",    "/uav/static_pressure",
+                           "BaroStaticTemperature", "/uav/static_temperature",
+                           "DiffPressure",          "/uav/raw_air_data",
+                           "GPS",                   "/uav/gps_position",
+                           "IMU",                   "/uav/imu",
+                           "Magnetometer",          "/uav/mag"
+]
