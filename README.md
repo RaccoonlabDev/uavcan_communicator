@@ -1,65 +1,63 @@
 # Uavcan communicator
 
-Uavcan communicator offers a bridge between UAVCAN and ROS.
+Uavcan communicator is a bridge between UAVCAN and ROS.
 
-It covers minimal set of sensors required for such applications as PX4 UAVCAN HITL simulation and even a few additional ones. This communicator can be used for other purposes as well.
+It covers minimal set of sensors required for such applications as PX4 UAVCAN HITL simulation. This communicator can be used for other purposes as well.
 
-Example of design of the UAVCAN HITL simulator mentioned above using this communicator is shown on the figure below.
+Tables below represents the supported convertions:
 
-![scheme](img/scheme.png?raw=true "scheme")
+**UAVCAN->ROS**
 
-Supported convertions are shown below in the table:
+| № | Brige name |ROS msg                               | UAVCAN msg                                     |
+| - | ---------- | ------------------------------------ |----------------------------------------------- |
+| 1 | Actuators  | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
+| 2 | Arm         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand) |
+| 3 | AhrsSolution | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
+| 4 | EscStatusUavcanToRos | uavcan_msgs::EscStatus | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
+| 5 | CircuitStatusUavcanToRos | uavcan_msgs::CircuitStatus | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
 
-UAVCAN->ROS
+**ROS->UAVCAN**
 
-| № | ROS msg                               | UAVCAN msg                                     |
-| - | ------------------------------------- |----------------------------------------------- |
-| 1 |[sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
-| 2 | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
+| № | Brige name | ROS msg                               | UAVCAN msg                                     |
+| - | ---------- | ------------------------------------- |----------------------------------------------- |
+| 1 | BaroStaticTemperature | uavcan_msgs/StaticTemperature | [air_data::StaticTemperature](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#statictemperature) |
+| 2 | BaroStaticPressure | uavcan_msgs/StaticPressure    | [air_data::StaticPressure](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#staticpressure)    |
+| 3 | DiffPressure | uavcan_msgs/RawAirData        | [air_data::RawAirData](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawairdata)        |
+| 4 | GPS | uavcan_msgs/Fix               | [gnss::Fix](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fix)                   |
+| 5 | IMU | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
+| 6 | Magnetometer | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
 
-ROS->UAVCAN
+Here we try to use default ROS messages as much as possible, but sometimes we need to define our own messages `uavcan_msgs`.
 
-| № | ROS msg                               | UAVCAN msg                                     |
-| - | ------------------------------------- |----------------------------------------------- |
-| 1 | uavcan_msgs/StaticTemperature | [air_data::StaticTemperature](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#statictemperature) |
-| 2 | uavcan_msgs/StaticPressure    | [air_data::StaticPressure](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#staticpressure)    |
-| 3 | uavcan_msgs/RawAirData        | [air_data::RawAirData](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawairdata)        |
-| 4 | uavcan_msgs/Fix               | [gnss::Fix](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fix)                   |
-| 5 | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
-| 6 | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
+# Usage example
 
-Here we try to use default ROS messages as much as possible, but they are not enough.
+Below you can see an example of usage the uavcan_communicator in conjunction with a VTOL dynamics simulator.
+
+[![uavcan vtol dynamics simulator](https://img.youtube.com/vi/JmElAwgAoSc/0.jpg)](https://youtu.be/JmElAwgAoSc)
 
 # Preparation
 
-1. Clone this repository using recursive. Update submodules every time you pull this repo:
+You need to perform following steps in orders to use this package:
+
+1. Clone this repository using recursive. Update submodules every time you pull this repo
+2. Install required packages using `install_requirements.sh` script
+3. Build [libuavcan v0.1](https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application) as a static library and install it on the system globally
+4. (optionally) Build dsds if you want to use custom messages
 
 ```
 cd catkin_ws/src
-git clone --recursive https://github.com/InnopolisAero/innopolis_vtol_dynamics.git .
+git clone --recursive git@github.com:InnopolisAero/drone_communicators.git
+cd drone_communicators
 git submodule update --init --recursive
-```
-
-2. Install required packages
-
-```
-./install_requirements.sh
-```
-
-3. Build libuavcan v0.1 as a static library and install it on the system globally. Use [official instuction](https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application) or this script:
-
-```
-./install_libuavcan.sh.sh
+./scripts/install_requirements.sh
+./scripts/install_libuavcan.sh
+./scripts/compile_dsdl.sh
 ```
 
 # Running
 
 1. At first, you need to create virtual can port
-If you has [Innopolis sniffer](), just use scipt `./scripts/create_slcan.sh`.
-Otherwise you should use `./scripts/create_slcan.sh /dev/ttyACMx`, where `x` is index of your tty device.
-
 2. Then specify in `config/params.yaml` which convertions do you need to use
-
 3. Then launch communicator typing:
 ```
 roslaunch drone_communicators uavcan_communicator.launch
