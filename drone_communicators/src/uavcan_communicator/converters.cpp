@@ -182,49 +182,27 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  const char* ros_topic) {
     std::unique_ptr<Converter> converter(nullptr);
     if (converter_name.compare("Actuators") == 0) {
-        converter = std::unique_ptr<Converter>(new Actuators(ros_node,
-                                                             uavcan_node,
-                                                             ros_topic));
+        converter = std::unique_ptr<Converter>(new Actuators(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("AhrsSolution") == 0) {
-        converter = std::unique_ptr<Converter>(new AhrsSolution(ros_node,
-                                                                uavcan_node,
-                                                                ros_topic));
+        converter = std::unique_ptr<Converter>(new AhrsSolution(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("Arm") == 0) {
-        converter = std::unique_ptr<Converter>(new Arm(ros_node,
-                                                       uavcan_node,
-                                                       ros_topic));
+        converter = std::unique_ptr<Converter>(new Arm(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("CircuitStatusUavcanToRos") == 0) {
-        converter = std::unique_ptr<Converter>(new CircuitStatusUavcanToRos(ros_node,
-                                                                            uavcan_node,
-                                                                            ros_topic));
+        converter = std::unique_ptr<Converter>(new CircuitStatusUavcanToRos(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("EscStatusUavcanToRos") == 0) {
-        converter = std::unique_ptr<Converter>(new EscStatusUavcanToRos(ros_node,
-                                                                        uavcan_node,
-                                                                        ros_topic));
+        converter = std::unique_ptr<Converter>(new EscStatusUavcanToRos(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("BaroStaticPressure") == 0) {
-        converter = std::unique_ptr<Converter>(new BaroStaticPressure(ros_node,
-                                                                      uavcan_node,
-                                                                      ros_topic));
+        converter = std::unique_ptr<Converter>(new BaroStaticPressure(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("BaroStaticTemperature") == 0) {
-        converter = std::unique_ptr<Converter>(new BaroStaticTemperature(ros_node,
-                                                                         uavcan_node,
-                                                                         ros_topic));
+        converter = std::unique_ptr<Converter>(new BaroStaticTemperature(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("DiffPressure") == 0) {
-        converter = std::unique_ptr<Converter>(new DiffPressure(ros_node,
-                                                                uavcan_node,
-                                                                ros_topic));
+        converter = std::unique_ptr<Converter>(new DiffPressure(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("GPS") == 0) {
-        converter = std::unique_ptr<Converter>(new GPS(ros_node,
-                                                       uavcan_node,
-                                                       ros_topic));
+        converter = std::unique_ptr<Converter>(new GPS(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("IMU") == 0) {
-        converter = std::unique_ptr<Converter>(new IMU(ros_node,
-                                                       uavcan_node,
-                                                       ros_topic));
+        converter = std::unique_ptr<Converter>(new IMU(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("Magnetometer") == 0) {
-        converter = std::unique_ptr<Converter>(new Magnetometer(ros_node,
-                                                                uavcan_node,
-                                                                ros_topic));
+        converter = std::unique_ptr<Converter>(new Magnetometer(ros_node, uavcan_node, ros_topic));
     } else {
         std::cout << "ERROR: instantiate_converter, wrong converter name" << std::endl;
     }

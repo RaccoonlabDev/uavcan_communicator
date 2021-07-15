@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
         std::cout << "Param problem: you should specify bridges in your config file." << std::endl;
     }
 
-    // 2. Spinner
+    // 4. Spinner
     uavcan_node.setModeOperational();
     uavcan_node.setHealthOk();
     while (ros::ok()) {
