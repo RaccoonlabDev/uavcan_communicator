@@ -27,14 +27,17 @@ RUN sudo apt-get install -y socat               \
                             kmod
 
 # 4. Install uavcan_communicator
-COPY . .
 COPY scripts/ scripts/
 COPY uavcan_msgs/ uavcan_msgs/
+COPY uavcan_communicator/ uavcan_communicator/
 RUN scripts/install_requirements.sh
 RUN scripts/install_libuavcan.sh
+
+# 5. For custom uavcan msgs
+# COPY custom_msgs/ custom_msgs/
 # RUN ./scripts/compile_dsdl.sh
 
-# 5. Build
+# 6. Build
 RUN source /opt/ros/melodic/setup.bash      &&  \
     cd ../../                               &&  \
     catkin build
