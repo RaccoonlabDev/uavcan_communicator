@@ -2,9 +2,9 @@
 
 Uavcan communicator is a bridge between UAVCAN and ROS.
 
-It covers minimal set of sensors required for such applications as PX4 UAVCAN HITL simulation. This communicator can be used for other purposes as well.
+It covers a minimal set of sensors required for such applications as PX4 UAVCAN HITL simulation. This communicator can be used for other purposes as well.
 
-Tables below represents the supported convertions:
+The tables below represent the supported conversions:
 
 **UAVCAN->ROS**
 
@@ -31,13 +31,13 @@ Here we try to use default ROS messages as much as possible, but sometimes we ne
 
 # Usage example
 
-Below you can see an example of usage the uavcan_communicator in conjunction with a VTOL dynamics simulator.
+Below you can see an example of using the uavcan_communicator in conjunction with a VTOL dynamics simulator.
 
 [![uavcan vtol dynamics simulator](https://img.youtube.com/vi/JmElAwgAoSc/0.jpg)](https://youtu.be/JmElAwgAoSc)
 
 # Preparation
 
-You need to perform following steps in orders to use this package:
+You need to perform the following steps to use this package:
 
 1. Clone this repository using recursive. Update submodules every time you pull this repo
 2. Install required packages using `install_requirements.sh` script
@@ -56,8 +56,8 @@ git submodule update --init --recursive
 
 # Running
 
-1. At first, you need to create virtual can port
-2. Then specify in `config/params.yaml` which convertions do you need to use
+1. At first, you need to create a virtual can port
+2. Then specify in `config/params.yaml` which conversions do you need to use
 3. Then launch communicator typing:
 
 Example:
