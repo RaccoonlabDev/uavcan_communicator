@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>drone_communicators</name>
+  <name>uavcan_communicator</name>
   <version>0.0.0</version>
-  <description>The drone_communicators package</description>
+  <description>The uavcan_communicator package</description>
   <maintainer email="ponomarevda96@gmail.com">dmitry</maintainer>
   <license>TODO</license>
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo docker container run drone_communicators
+sudo docker container run uavcan_communicator

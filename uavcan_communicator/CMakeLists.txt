@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(drone_communicators)
+project(uavcan_communicator)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp

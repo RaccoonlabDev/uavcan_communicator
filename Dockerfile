@@ -27,7 +27,7 @@ RUN sudo apt-get install -y socat               \
                             kmod
 
 # 4. Install uavcan_communicator
-COPY drone_communicators/ drone_communicators/
+COPY . .
 COPY scripts/ scripts/
 COPY uavcan_msgs/ uavcan_msgs/
 RUN scripts/install_requirements.sh

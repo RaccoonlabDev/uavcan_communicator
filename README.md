@@ -59,6 +59,8 @@ git submodule update --init --recursive
 1. At first, you need to create virtual can port
 2. Then specify in `config/params.yaml` which convertions do you need to use
 3. Then launch communicator typing:
+
+Example:
 ```
-roslaunch drone_communicators uavcan_communicator.launch
+roslaunch uavcan_communicator inno_dynamics_communicator.launch
 ```
