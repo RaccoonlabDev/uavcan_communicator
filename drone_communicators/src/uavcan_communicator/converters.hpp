@@ -79,28 +79,28 @@ protected:
 };
 
 
-class Actuators: public UavcanToRosConverter<uavcan::equipment::esc::RawCommand,
+class ActuatorsUavcanToRos: public UavcanToRosConverter<uavcan::equipment::esc::RawCommand,
                                              sensor_msgs::Joy> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 public:
-    Actuators(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic);
+    ActuatorsUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic);
 };
 
-class AhrsSolution: public UavcanToRosConverter<uavcan::equipment::ahrs::Solution,
+class AhrsSolutionUavcanToRos: public UavcanToRosConverter<uavcan::equipment::ahrs::Solution,
                                                 sensor_msgs::Imu> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 public:
-    AhrsSolution(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    AhrsSolutionUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
               UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
 };
 
 
-class Arm: public UavcanToRosConverter<uavcan::equipment::esc::RawCommand,
+class ArmUavcanToRos: public UavcanToRosConverter<uavcan::equipment::esc::RawCommand,
                                        std_msgs::Bool> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
 public:
-    Arm(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    ArmUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         UavcanToRosConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
@@ -125,56 +125,56 @@ public:
 };
 
 
-class BaroStaticPressure: public RosToUavcanConverter<uavcan_msgs::StaticPressure,
+class BaroStaticPressureRosToUavcan: public RosToUavcanConverter<uavcan_msgs::StaticPressure,
                                                       uavcan::equipment::air_data::StaticPressure> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
-    BaroStaticPressure(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    BaroStaticPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class BaroStaticTemperature: public RosToUavcanConverter<uavcan_msgs::StaticTemperature,
+class BaroStaticTemperatureRosToUavcan: public RosToUavcanConverter<uavcan_msgs::StaticTemperature,
                                                          uavcan::equipment::air_data::StaticTemperature> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
-    BaroStaticTemperature(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    BaroStaticTemperatureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class DiffPressure: public RosToUavcanConverter<uavcan_msgs::RawAirData,
+class DiffPressureRosToUavcan: public RosToUavcanConverter<uavcan_msgs::RawAirData,
                                                 uavcan::equipment::air_data::RawAirData> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
-    DiffPressure(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    DiffPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class GPS: public RosToUavcanConverter<uavcan_msgs::Fix,
+class GpsRosToUavcan: public RosToUavcanConverter<uavcan_msgs::Fix,
                                        uavcan::equipment::gnss::Fix> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
-    GPS(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    GpsRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class IMU: public RosToUavcanConverter<sensor_msgs::Imu,
+class ImuRosToUavcan: public RosToUavcanConverter<sensor_msgs::Imu,
                                        uavcan::equipment::ahrs::RawIMU> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
-    IMU(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    ImuRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class Magnetometer: public RosToUavcanConverter<sensor_msgs::MagneticField,
+class MagnetometerRosToUavcan: public RosToUavcanConverter<sensor_msgs::MagneticField,
                            uavcan::equipment::ahrs::MagneticFieldStrength> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
-    Magnetometer(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    MagnetometerRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 

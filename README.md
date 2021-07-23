@@ -10,9 +10,9 @@ Tables below represents the supported convertions:
 
 | № | Brige name |ROS msg                               | UAVCAN msg                                     |
 | - | ---------- | ------------------------------------ |----------------------------------------------- |
-| 1 | Actuators  | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
-| 2 | Arm         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand) |
-| 3 | AhrsSolution | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
+| 1 | ActuatorsUavcanToRos  | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
+| 2 | ArmUavcanToRos         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand) |
+| 3 | AhrsSolutionUavcanToRos | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
 | 4 | EscStatusUavcanToRos | uavcan_msgs::EscStatus | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
 | 5 | CircuitStatusUavcanToRos | uavcan_msgs::CircuitStatus | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
 
@@ -20,12 +20,12 @@ Tables below represents the supported convertions:
 
 | № | Brige name | ROS msg                               | UAVCAN msg                                     |
 | - | ---------- | ------------------------------------- |----------------------------------------------- |
-| 1 | BaroStaticTemperature | uavcan_msgs/StaticTemperature | [air_data::StaticTemperature](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#statictemperature) |
-| 2 | BaroStaticPressure | uavcan_msgs/StaticPressure    | [air_data::StaticPressure](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#staticpressure)    |
-| 3 | DiffPressure | uavcan_msgs/RawAirData        | [air_data::RawAirData](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawairdata)        |
-| 4 | GPS | uavcan_msgs/Fix               | [gnss::Fix](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fix)                   |
-| 5 | IMU | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
-| 6 | Magnetometer | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
+| 1 | BaroStaticTemperatureRosToUavcan | uavcan_msgs/StaticTemperature | [air_data::StaticTemperature](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#statictemperature) |
+| 2 | BaroStaticPressureRosToUavcan | uavcan_msgs/StaticPressure    | [air_data::StaticPressure](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#staticpressure)    |
+| 3 | DiffPressureRosToUavcan | uavcan_msgs/RawAirData        | [air_data::RawAirData](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawairdata)        |
+| 4 | GpsRosToUavcan | uavcan_msgs/Fix               | [gnss::Fix](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fix)                   |
+| 5 | ImuRosToUavcan | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
+| 6 | MagnetometerRosToUavcan | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
 
 Here we try to use default ROS messages as much as possible, but sometimes we need to define our own messages `uavcan_msgs`.
 
