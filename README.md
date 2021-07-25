@@ -46,8 +46,8 @@ You need to perform the following steps to use this package:
 
 ```
 cd catkin_ws/src
-git clone --recursive git@github.com:InnopolisAero/drone_communicators.git
-cd drone_communicators
+git clone --recursive git@github.com:InnopolisAero/uavcan_communicator.git
+cd uavcan_communicator
 git submodule update --init --recursive
 ./scripts/install_requirements.sh
 ./scripts/install_libuavcan.sh

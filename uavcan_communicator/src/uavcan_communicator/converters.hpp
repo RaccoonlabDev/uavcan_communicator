@@ -3,8 +3,8 @@
 * @author Dmitry Ponomarev  <ponomarevda96@gmail.com>
 */
 
-#ifndef DRONE_COMMUNICATORS_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
-#define DRONE_COMMUNICATORS_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
+#ifndef UAVCAN_COMMUNICATOR_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
+#define UAVCAN_COMMUNICATOR_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
 
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
@@ -184,4 +184,4 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  UavcanNode& uavcan_node,
                                                  const char* ros_topic);
 
-#endif  // DRONE_COMMUNICATORS_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
+#endif  // UAVCAN_COMMUNICATOR_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
