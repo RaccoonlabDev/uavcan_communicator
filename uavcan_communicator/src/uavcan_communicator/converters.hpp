@@ -55,7 +55,7 @@ protected:
     virtual void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) = 0;
     UavcanToRosConverter(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic) :
                          uavcan_sub_(uavcan_node) {
-        ros_pub_ = ros_node.advertise<OUT_ROS_MSG>(ros_topic, 1);
+        ros_pub_ = ros_node.advertise<OUT_ROS_MSG>(ros_topic, 5);
         uavcan_sub_.start(std::bind(&UavcanToRosConverter::uavcan_callback, this, std::placeholders::_1));
     }
 };
@@ -83,7 +83,8 @@ class ActuatorsUavcanToRos: public UavcanToRosConverter<uavcan::equipment::esc::
                                              sensor_msgs::Joy> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 public:
-    ActuatorsUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic);
+    ActuatorsUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+              UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
 };
 
 class AhrsSolutionUavcanToRos: public UavcanToRosConverter<uavcan::equipment::ahrs::Solution,

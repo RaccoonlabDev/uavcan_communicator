@@ -8,33 +8,17 @@
 
 
 void ActuatorsUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
-    ros_msg_.header.stamp = ros::Time::now();
-
-    if (uavcan_msg.cmd.size() == 8) {
-        ros_msg_.axes[0] = uavcan_msg.cmd[0] / 8191.0;
-        ros_msg_.axes[1] = uavcan_msg.cmd[1] / 8191.0;
-        ros_msg_.axes[2] = uavcan_msg.cmd[2] / 8191.0;
-        ros_msg_.axes[3] = uavcan_msg.cmd[3] / 8191.0;
-
-        ros_msg_.axes[4] = 0.5 + (uavcan_msg.cmd[4] - 4096.0) / 8191.0;
-        ros_msg_.axes[5] = (uavcan_msg.cmd[5] == -1) ? 0 : uavcan_msg.cmd[5] / 4096.0 - 1.0;
-        ros_msg_.axes[6] = (uavcan_msg.cmd[6] == -1) ? 0 : uavcan_msg.cmd[6] / 4096.0 - 1.0;
-
-        ros_msg_.axes[7] = uavcan_msg.cmd[7] / 8191.0 / 0.75;
-    } else {
-        ros_msg_.axes[4] = 0.5;
-        ros_msg_.axes[5] = 0.0;
-        ros_msg_.axes[6] = 0.0;
-        ros_msg_.axes[7] = -1.0;
-    }
-
-    ros_pub_.publish(ros_msg_);
-}
-
-ActuatorsUavcanToRos::ActuatorsUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-            UavcanToRosConverter(ros_node, uavcan_node, ros_topic) {
-    for (size_t idx = 0; idx < 8; idx++) {
-        ros_msg_.axes.push_back(0);
+    if (uavcan_msg.cmd.size() > 0 && uavcan_msg.cmd.size() <= 20) {
+        sensor_msgs::Joy ros_msg;
+        ros_msg.header.stamp = ros::Time::now();
+        for (auto cmd : uavcan_msg.cmd) {
+            if (cmd >= 0) {
+                ros_msg.axes.push_back(cmd / 8091.0);
+            } else {
+                ros_msg.axes.push_back(cmd / 8092.0);
+            }
+        }
+        ros_pub_.publish(ros_msg);
     }
 }
 
