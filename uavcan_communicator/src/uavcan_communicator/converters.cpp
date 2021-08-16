@@ -45,7 +45,7 @@ void AhrsSolutionUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructur
 
 void ArmUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
     ros_msg_.data = false;
-    if (uavcan_msg.cmd.size() == 8) {
+    if (uavcan_msg.cmd.size() != 0) {
         for (auto raw_cmd : uavcan_msg.cmd) {
             if (raw_cmd != -1) {
                 ros_msg_.data = true;
