@@ -26,6 +26,10 @@ The tables below represent the supported conversions:
 | 4 | GpsRosToUavcan | uavcan_msgs/Fix               | [gnss::Fix](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fix)                   |
 | 5 | ImuRosToUavcan | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
 | 6 | MagnetometerRosToUavcan | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
+| 7 | EscStatusRosToUavcan | uavcan_msgs/EscStatus             | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
+| 8 | IceReciprocatingStatusRosToUavcan | uavcan_msgs/IceReciprocatingStatus             | [ice::reciprocating::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-4) |
+| 9 | IceFuelTankStatusRosToUavcan | uavcan_msgs/IceFuelTankStatus             | [ice::FuelTankStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fueltankstatus) |
+| 10 | BatteryInfoRosToUavcan | [sensor_msgs/BatteryState](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/BatteryState.html)             | [power::BatteryInfo](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#batteryinfo) |
 
 Here we try to use default ROS messages as much as possible, but sometimes we need to define our own messages `uavcan_msgs`.
 
