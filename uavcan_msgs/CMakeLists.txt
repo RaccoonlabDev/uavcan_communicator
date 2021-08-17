@@ -16,6 +16,7 @@ add_message_files(
   EscStatus.msg
   CircuitStatus.msg
   IceReciprocatingStatus.msg
+  IceFuelTankStatus.msg
 )
 
 generate_messages(

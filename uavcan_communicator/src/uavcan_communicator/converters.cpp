@@ -201,6 +201,19 @@ void IceReciprocatingStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) 
     }
 }
 
+void IceFuelTankStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
+    out_uavcan_msg_.available_fuel_volume_percent = in_ros_msg->available_fuel_volume_percent;
+    out_uavcan_msg_.available_fuel_volume_cm3 = in_ros_msg->available_fuel_volume_cm3;
+    out_uavcan_msg_.fuel_consumption_rate_cm3pm = in_ros_msg->fuel_consumption_rate_cm3pm;
+    out_uavcan_msg_.fuel_temperature = in_ros_msg->fuel_temperature;
+    out_uavcan_msg_.fuel_tank_id = in_ros_msg->fuel_tank_id;
+
+    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
+    if (pub_res < 0) {
+        std::cerr << "IceFuelTankStatusRosToUavcan publication failure: " << pub_res << std::endl;
+    }
+}
+
 std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  ros::NodeHandle& ros_node,
                                                  UavcanNode& uavcan_node,
@@ -232,6 +245,8 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
         converter = std::unique_ptr<Converter>(new EscStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("IceReciprocatingStatusRosToUavcan") == 0) {
         converter = std::unique_ptr<Converter>(new IceReciprocatingStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
+    } else if (converter_name.compare("IceFuelTankStatusRosToUavcan") == 0) {
+        converter = std::unique_ptr<Converter>(new IceFuelTankStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else {
         std::cout << "ERROR: instantiate_converter, wrong converter name" << std::endl;
     }

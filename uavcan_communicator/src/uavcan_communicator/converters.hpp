@@ -20,6 +20,7 @@
 #include <uavcan_msgs/CircuitStatus.h>
 #include <uavcan_msgs/EscStatus.h>
 #include <uavcan_msgs/IceReciprocatingStatus.h>
+#include <uavcan_msgs/IceFuelTankStatus.h>
 
 #include <iostream>
 #include <memory>
@@ -37,6 +38,7 @@
 #include <uavcan/equipment/gnss/Fix.hpp>
 #include <uavcan/equipment/power/CircuitStatus.hpp>
 #include <uavcan/equipment/ice/reciprocating/Status.hpp>
+#include <uavcan/equipment/ice/FuelTankStatus.hpp>
 
 
 constexpr unsigned NodeMemoryPoolSize = 16384;
@@ -196,6 +198,15 @@ class IceReciprocatingStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs
 
 public:
     IceReciprocatingStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+};
+
+class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs::IceFuelTankStatus,
+                                                uavcan::equipment::ice::FuelTankStatus> {
+    void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
+
+public:
+    IceFuelTankStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
                          RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
