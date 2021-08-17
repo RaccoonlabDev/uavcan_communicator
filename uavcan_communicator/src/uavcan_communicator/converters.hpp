@@ -10,6 +10,7 @@
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/Joy.h>
 #include <sensor_msgs/MagneticField.h>
+#include <sensor_msgs/BatteryState.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/UInt8.h>
 #include <geometry_msgs/Twist.h>
@@ -36,10 +37,10 @@
 #include <uavcan/equipment/esc/RawCommand.hpp>
 #include <uavcan/equipment/esc/Status.hpp>
 #include <uavcan/equipment/gnss/Fix.hpp>
-#include <uavcan/equipment/power/CircuitStatus.hpp>
-#include <uavcan/equipment/ice/reciprocating/Status.hpp>
 #include <uavcan/equipment/ice/FuelTankStatus.hpp>
-
+#include <uavcan/equipment/ice/reciprocating/Status.hpp>
+#include <uavcan/equipment/power/CircuitStatus.hpp>
+#include <uavcan/equipment/power/BatteryInfo.hpp>
 
 constexpr unsigned NodeMemoryPoolSize = 16384;
 typedef uavcan::Node<NodeMemoryPoolSize> UavcanNode;
@@ -207,6 +208,15 @@ class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs::Ice
 
 public:
     IceFuelTankStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+};
+
+class BatteryInfoRosToUavcan: public RosToUavcanConverter<sensor_msgs::BatteryState,
+                                                uavcan::equipment::power::BatteryInfo> {
+    void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
+
+public:
+    BatteryInfoRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
                          RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 

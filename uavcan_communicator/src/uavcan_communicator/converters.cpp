@@ -214,6 +214,40 @@ void IceFuelTankStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     }
 }
 
+void BatteryInfoRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
+    ///< Required by PX4
+    out_uavcan_msg_.voltage = in_ros_msg->voltage;
+    out_uavcan_msg_.current = in_ros_msg->current;
+    out_uavcan_msg_.full_charge_capacity_wh = in_ros_msg->design_capacity;
+    out_uavcan_msg_.state_of_charge_pct = in_ros_msg->percentage * 100;
+    out_uavcan_msg_.status_flags = 1;               ///< STATUS_FLAG_IN_USE
+    out_uavcan_msg_.model_instance_id = 1;          ///< Set to zero if not applicable
+    out_uavcan_msg_.temperature = 300;              ///< Some fields can be set to NAN if their values are unknown.
+
+    ///< Unused by PX4
+    out_uavcan_msg_.remaining_capacity_wh = in_ros_msg->capacity;
+    out_uavcan_msg_.average_power_10sec = 0;        ///< Some fields can be set to NAN if their values are unknown.
+    out_uavcan_msg_.hours_to_full_charge = 0;       ///< Some fields can be set to NAN if their values are unknown.
+    out_uavcan_msg_.state_of_health_pct = 127;      ///< STATE_OF_HEALTH_UNKNOWN
+    out_uavcan_msg_.state_of_charge_pct_stdev = 0;  ///< use best guess if unknown
+    out_uavcan_msg_.battery_id = 0;                 ///< 0 - primary battery
+    out_uavcan_msg_.model_name = "simulated_battery";
+
+    ///< Unused ros data:
+    ///< - power_supply_status
+    ///< - power_supply_health
+    ///< - present
+    ///< - unused charge
+    ///< - serial_number
+    ///< - power_supply_technology
+    ///< - location
+
+    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
+    if (pub_res < 0) {
+        std::cerr << "BatteryInfoRosToUavcan publication failure: " << pub_res << std::endl;
+    }
+}
+
 std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  ros::NodeHandle& ros_node,
                                                  UavcanNode& uavcan_node,
@@ -247,6 +281,8 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
         converter = std::unique_ptr<Converter>(new IceReciprocatingStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("IceFuelTankStatusRosToUavcan") == 0) {
         converter = std::unique_ptr<Converter>(new IceFuelTankStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
+    } else if (converter_name.compare("BatteryInfoRosToUavcan") == 0) {
+        converter = std::unique_ptr<Converter>(new BatteryInfoRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else {
         std::cout << "ERROR: instantiate_converter, wrong converter name" << std::endl;
     }
