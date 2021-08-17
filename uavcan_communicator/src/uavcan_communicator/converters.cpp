@@ -174,6 +174,32 @@ void EscStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     }
 }
 
+void IceReciprocatingStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
+    out_uavcan_msg_.state = in_ros_msg->state;
+    out_uavcan_msg_.flags = in_ros_msg->flags;
+    out_uavcan_msg_.engine_load_percent = in_ros_msg->engine_load_percent;
+    out_uavcan_msg_.engine_speed_rpm = in_ros_msg->engine_speed_rpm;
+
+    out_uavcan_msg_.spark_dwell_time_ms = in_ros_msg->spark_dwell_time_ms;
+    out_uavcan_msg_.atmospheric_pressure_kpa = in_ros_msg->atmospheric_pressure_kpa;
+    out_uavcan_msg_.intake_manifold_pressure_kpa = in_ros_msg->intake_manifold_pressure_kpa;
+    out_uavcan_msg_.intake_manifold_temperature = in_ros_msg->intake_manifold_temperature;
+    out_uavcan_msg_.coolant_temperature = in_ros_msg->coolant_temperature;
+    out_uavcan_msg_.oil_pressure = in_ros_msg->oil_pressure;
+    out_uavcan_msg_.oil_temperature = in_ros_msg->oil_temperature;
+    out_uavcan_msg_.fuel_pressure = in_ros_msg->fuel_pressure;
+    out_uavcan_msg_.fuel_consumption_rate_cm3pm = in_ros_msg->fuel_consumption_rate_cm3pm;
+    out_uavcan_msg_.estimated_consumed_fuel_volume_cm3 = in_ros_msg->estimated_consumed_fuel_volume_cm3;
+
+    out_uavcan_msg_.throttle_position_percent = in_ros_msg->throttle_position_percent;
+    out_uavcan_msg_.ecu_index = in_ros_msg->ecu_index;
+    out_uavcan_msg_.spark_plug_usage = in_ros_msg->spark_plug_usage;
+
+    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
+    if (pub_res < 0) {
+        std::cerr << "IceReciprocatingStatusRosToUavcan publication failure: " << pub_res << std::endl;
+    }
+}
 
 std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  ros::NodeHandle& ros_node,
@@ -204,6 +230,8 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
         converter = std::unique_ptr<Converter>(new MagnetometerRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("EscStatusRosToUavcan") == 0) {
         converter = std::unique_ptr<Converter>(new EscStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
+    } else if (converter_name.compare("IceReciprocatingStatusRosToUavcan") == 0) {
+        converter = std::unique_ptr<Converter>(new IceReciprocatingStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else {
         std::cout << "ERROR: instantiate_converter, wrong converter name" << std::endl;
     }
