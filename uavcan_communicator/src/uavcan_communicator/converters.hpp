@@ -179,6 +179,14 @@ public:
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
+class EscStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs::EscStatus,
+                                                        uavcan::equipment::esc::Status> {
+    void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
+
+public:
+    EscStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+};
 
 std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  ros::NodeHandle& ros_node,

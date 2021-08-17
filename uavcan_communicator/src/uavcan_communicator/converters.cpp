@@ -159,6 +159,21 @@ void MagnetometerRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     }
 }
 
+void EscStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
+    out_uavcan_msg_.error_count = in_ros_msg->error_count;
+    out_uavcan_msg_.voltage = in_ros_msg->voltage;
+    out_uavcan_msg_.current = in_ros_msg->current;
+    out_uavcan_msg_.temperature = in_ros_msg->temperature;
+    out_uavcan_msg_.rpm = in_ros_msg->rpm;
+    out_uavcan_msg_.power_rating_pct = in_ros_msg->power_rating_pct;
+    out_uavcan_msg_.esc_index = in_ros_msg->esc_index;
+
+    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
+    if (pub_res < 0) {
+        std::cerr << "EscStatusRosToUavcan publication failure: " << pub_res << std::endl;
+    }
+}
+
 
 std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  ros::NodeHandle& ros_node,
@@ -187,6 +202,8 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
         converter = std::unique_ptr<Converter>(new ImuRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("MagnetometerRosToUavcan") == 0) {
         converter = std::unique_ptr<Converter>(new MagnetometerRosToUavcan(ros_node, uavcan_node, ros_topic));
+    } else if (converter_name.compare("EscStatusRosToUavcan") == 0) {
+        converter = std::unique_ptr<Converter>(new EscStatusRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else {
         std::cout << "ERROR: instantiate_converter, wrong converter name" << std::endl;
     }
