@@ -4,7 +4,7 @@
   <version>0.0.0</version>
   <description>The uavcan_communicator package</description>
   <maintainer email="ponomarevda96@gmail.com">dmitry</maintainer>
-  <license>TODO</license>
+  <license>GPLv3</license>
 
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>uavcan_msgs</buildtool_depend>
