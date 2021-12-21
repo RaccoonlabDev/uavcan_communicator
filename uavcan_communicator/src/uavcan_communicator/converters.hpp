@@ -3,8 +3,8 @@
 * @author Dmitry Ponomarev  <ponomarevda96@gmail.com>
 */
 
-#ifndef UAVCAN_COMMUNICATOR_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
-#define UAVCAN_COMMUNICATOR_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
+#ifndef SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
+#define SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
 
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
@@ -59,7 +59,7 @@ protected:
 
     virtual void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) = 0;
     UavcanToRosConverter(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic) :
-                         uavcan_sub_(uavcan_node) {
+        uavcan_sub_(uavcan_node) {
         ros_pub_ = ros_node.advertise<OUT_ROS_MSG>(ros_topic, 5);
         uavcan_sub_.start(std::bind(&UavcanToRosConverter::uavcan_callback, this, std::placeholders::_1));
     }
@@ -78,31 +78,34 @@ protected:
 
     virtual void ros_callback(IN_ROS_MSG_PTR in_ros_msg) = 0;
     RosToUavcanConverter(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                         uavcan_pub_(uavcan_node) {
+        uavcan_pub_(uavcan_node) {
         ros_sub_ = ros_node.subscribe(ros_topic, 1, &RosToUavcanConverter::ros_callback, this);
     }
 };
 
 
-class ActuatorsUavcanToRos: public UavcanToRosConverter<uavcan::equipment::esc::RawCommand,
-                                             sensor_msgs::Joy> {
+class ActuatorsUavcanToRos: public UavcanToRosConverter<
+    uavcan::equipment::esc::RawCommand,
+    sensor_msgs::Joy> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 public:
     ActuatorsUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-              UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
+        UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
 };
 
-class AhrsSolutionUavcanToRos: public UavcanToRosConverter<uavcan::equipment::ahrs::Solution,
-                                                sensor_msgs::Imu> {
+class AhrsSolutionUavcanToRos: public UavcanToRosConverter<
+    uavcan::equipment::ahrs::Solution,
+    sensor_msgs::Imu> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 public:
     AhrsSolutionUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-              UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
+        UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
 };
 
 
-class ArmUavcanToRos: public UavcanToRosConverter<uavcan::equipment::esc::RawCommand,
-                                       std_msgs::Bool> {
+class ArmUavcanToRos: public UavcanToRosConverter<
+    uavcan::equipment::esc::RawCommand,
+    std_msgs::Bool> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
 public:
@@ -111,28 +114,31 @@ public:
 };
 
 
-class EscStatusUavcanToRos: public UavcanToRosConverter<uavcan::equipment::esc::Status,
-                                                        uavcan_msgs::EscStatus> {
+class EscStatusUavcanToRos: public UavcanToRosConverter<
+    uavcan::equipment::esc::Status,
+    uavcan_msgs::EscStatus> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
 public:
     EscStatusUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                         UavcanToRosConverter(ros_node, uavcan_node, ros_topic) {}
+        UavcanToRosConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class CircuitStatusUavcanToRos: public UavcanToRosConverter<uavcan::equipment::power::CircuitStatus,
-                                                            uavcan_msgs::CircuitStatus> {
+class CircuitStatusUavcanToRos: public UavcanToRosConverter<
+    uavcan::equipment::power::CircuitStatus,
+    uavcan_msgs::CircuitStatus> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
 public:
     CircuitStatusUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                             UavcanToRosConverter(ros_node, uavcan_node, ros_topic) {}
+        UavcanToRosConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
-class BaroStaticPressureRosToUavcan: public RosToUavcanConverter<uavcan_msgs::StaticPressure,
-                                                      uavcan::equipment::air_data::StaticPressure> {
+class BaroStaticPressureRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::StaticPressure,
+    uavcan::equipment::air_data::StaticPressure> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     BaroStaticPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
@@ -140,8 +146,9 @@ public:
 };
 
 
-class BaroStaticTemperatureRosToUavcan: public RosToUavcanConverter<uavcan_msgs::StaticTemperature,
-                                                         uavcan::equipment::air_data::StaticTemperature> {
+class BaroStaticTemperatureRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::StaticTemperature,
+    uavcan::equipment::air_data::StaticTemperature> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     BaroStaticTemperatureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
@@ -149,8 +156,9 @@ public:
 };
 
 
-class DiffPressureRosToUavcan: public RosToUavcanConverter<uavcan_msgs::RawAirData,
-                                                uavcan::equipment::air_data::RawAirData> {
+class DiffPressureRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::RawAirData,
+    uavcan::equipment::air_data::RawAirData> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     DiffPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
@@ -158,8 +166,9 @@ public:
 };
 
 
-class GpsRosToUavcan: public RosToUavcanConverter<uavcan_msgs::Fix,
-                                       uavcan::equipment::gnss::Fix> {
+class GpsRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::Fix,
+    uavcan::equipment::gnss::Fix> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     GpsRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
@@ -167,8 +176,9 @@ public:
 };
 
 
-class ImuRosToUavcan: public RosToUavcanConverter<sensor_msgs::Imu,
-                                       uavcan::equipment::ahrs::RawIMU> {
+class ImuRosToUavcan: public RosToUavcanConverter<
+    sensor_msgs::Imu,
+    uavcan::equipment::ahrs::RawIMU> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     ImuRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
@@ -176,48 +186,53 @@ public:
 };
 
 
-class MagnetometerRosToUavcan: public RosToUavcanConverter<sensor_msgs::MagneticField,
-                           uavcan::equipment::ahrs::MagneticFieldStrength> {
+class MagnetometerRosToUavcan: public RosToUavcanConverter<
+    sensor_msgs::MagneticField,
+    uavcan::equipment::ahrs::MagneticFieldStrength> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     MagnetometerRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
-class EscStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs::EscStatus,
-                                                        uavcan::equipment::esc::Status> {
+class EscStatusRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::EscStatus,
+    uavcan::equipment::esc::Status> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 
 public:
     EscStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
-class IceReciprocatingStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs::IceReciprocatingStatus,
-                                                uavcan::equipment::ice::reciprocating::Status> {
+class IceReciprocatingStatusRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::IceReciprocatingStatus,
+    uavcan::equipment::ice::reciprocating::Status> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 
 public:
     IceReciprocatingStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
-class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<uavcan_msgs::IceFuelTankStatus,
-                                                uavcan::equipment::ice::FuelTankStatus> {
+class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<
+    uavcan_msgs::IceFuelTankStatus,
+    uavcan::equipment::ice::FuelTankStatus> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 
 public:
     IceFuelTankStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
-class BatteryInfoRosToUavcan: public RosToUavcanConverter<sensor_msgs::BatteryState,
-                                                uavcan::equipment::power::BatteryInfo> {
+class BatteryInfoRosToUavcan: public RosToUavcanConverter<
+    sensor_msgs::BatteryState,
+    uavcan::equipment::power::BatteryInfo> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 
 public:
     BatteryInfoRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-                         RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
 };
 
 
@@ -226,4 +241,4 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  UavcanNode& uavcan_node,
                                                  const char* ros_topic);
 
-#endif  // UAVCAN_COMMUNICATOR_SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_
+#endif  // SRC_UAVCAN_COMMUNICATOR_CONVERTERS_HPP_

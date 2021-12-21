@@ -33,13 +33,13 @@ int main(int argc, char** argv) {
     ///< 2. Init uavcan node
     int node_id;
     std::string uavcan_node_name;
-    if (ros::param::get("/uavcan/uavcan_node_id", node_id)) {
+    if (ros_node.getParam("uavcan_node_id", node_id)) {
         std::cout << "Param node_id: " << node_id << std::endl;
     } else {
         std::cout << "Param problem: You should specify node_id in your config file." << std::endl;
         return -1;
     }
-    if (ros::param::get("/uavcan/uavcan_node_name", uavcan_node_name)) {
+    if (ros_node.getParam("uavcan_node_name", uavcan_node_name)) {
         std::cout << "Param node_id: " << uavcan_node_name << std::endl;
     } else {
         std::cout << "Param problem: You should specify node_id in your config file." << std::endl;
@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
     ///< 3. Instantiate converters
     std::vector<std::string> bridges;
     std::vector<std::unique_ptr<Converter>> converters;
-    if (ros::param::get("/uavcan/bridges",   bridges)) {
+    if (ros_node.getParam("bridges",   bridges)) {
         if (bridges.size() == 0 || bridges.size() % 2 == 1) {
             std::cout << "ERROR. Param problem: The size of `bridges` must be even." << std::endl;
             return -1;

@@ -3,8 +3,9 @@
 
 cd "$(dirname "$0")"
 cd ../uavcan_communicator/libs/libuavcan
-mkdir build
+mkdir -p build
 cd build
+rm -r *  # handle case if build directory is not empty bacause it may lead to fail
 cmake ..
 make
 sudo make install
