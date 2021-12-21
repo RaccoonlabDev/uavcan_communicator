@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
                                                                          uavcan_node,
                                                                          converter_topic.c_str());
             std::cout << idx / 2 << ". Creation of converter with name `" << converter_name << "` "
-                                 << "and topic `" << converter_topic << "` has been ";
+                      << "and topic `" << converter_topic << "` has been ";
             if (converter.get() == nullptr) {
                 std::cout << "failed: wrong converter name. Finish." << std::endl;
                 return -1;
