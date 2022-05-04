@@ -11,7 +11,6 @@ jobs:
     container:
       image: ros:melodic
     steps:
-      # 1. Install basic requirements
       - name: Force Install GIT latest since actions/checkout@v2 has some problems on ubuntu-18.04
         run: |
           apt-get update                                  &&  \
@@ -23,26 +22,26 @@ jobs:
       - run: apt-get install -y python-catkin-tools python-pip python3-pip
       - run: apt-get install -y python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential python-catkin-tools
 
-      # 2. Checkout repo with submodules
       - uses: actions/checkout@v2
         with:
           path: catkin_ws/src/uavcan_communicator
           submodules: recursive
 
-      # 3. Install requirements
-      - name: Install uavcan_communicator requirements
+      - name: Install requirements
         run: |
           cd catkin_ws/src/uavcan_communicator                              &&  \
           ./scripts/install_requirements.sh                                 &&  \
           ./scripts/install_libuavcan.sh
 
-      # 4. Generate custom dsdl
-      # - name: Install uavcan_communicator requirements
+      - name: Dependencies
+        run: |
+          git clone https://github.com/InnopolisAero/uavcan_msgs.git catkin_ws/src/uavcan_msgs
+
+      # - name: Generate custom dsdl
       #   run: |
       #     cd catkin_ws/src/uavcan_communicator                              &&  \
       #     ./scripts/compile_dsdl.sh
 
-      # 5. Build
       - name: catkin build
         run: |
           source /opt/ros/melodic/setup.bash                                &&  \

@@ -1,6 +1,6 @@
-[submodule "uavcan_communicator/libs/libuavcan"]
-	path = uavcan_communicator/libs/libuavcan
-	url = https://github.com/UAVCAN/libuavcan
-[submodule "uavcan_communicator/libs/platform_specific_components"]
-	path = uavcan_communicator/libs/platform_specific_components
-	url = https://github.com/UAVCAN/platform_specific_components
+[submodule "libs/libuavcan"]
+	path = libs/libuavcan
+	url = https://github.com/OpenCyphal-Garage/libuavcan
+[submodule "libs/platform_specific_components"]
+	path = libs/platform_specific_components
+	url = https://github.com/OpenCyphal-Garage/platform_specific_components
