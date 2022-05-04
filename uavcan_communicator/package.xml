@@ -6,8 +6,12 @@
   <maintainer email="ponomarevda96@gmail.com">dmitry</maintainer>
   <license>GPLv3</license>
 
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>uavcan_msgs</depend>
+  
   <buildtool_depend>catkin</buildtool_depend>
-  <buildtool_depend>uavcan_msgs</buildtool_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_export_depend>roscpp</build_export_depend>
