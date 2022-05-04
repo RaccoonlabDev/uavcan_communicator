@@ -9,42 +9,34 @@ RUN sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) 
     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
     apt-get update                          &&  \
     apt-get upgrade -y                      &&  \
-    apt-get install -y  git                     \
-                        python-catkin-tools     \
-                        python-pip              \
-                        python3-pip
+    apt-get install -y  git python-catkin-tools python-pip python3-pip
+RUN if [[ "$ROS_DISTRO" = "melodic" ]] ; then apt-get install -y python-pip python-catkin-tools ; fi
 
-# 2. Additional
-RUN sudo apt-get install -y iputils-ping        \
-                            nano                \
-                            iproute2            \
-                            net-tools           \
-                            tcpdump             \
-                            nmap
-
-# 3. Setup slcan
-RUN sudo apt-get install -y socat               \
-                            kmod
-
-# 4. Install uavcan_communicator
+# 2. Install package requirements
 COPY scripts/ scripts/
-COPY uavcan_msgs/ uavcan_msgs/
-COPY uavcan_communicator/ uavcan_communicator/
+COPY libs/ libs/
 RUN scripts/install_requirements.sh
 RUN scripts/install_libuavcan.sh
+
+# 3. Install dependencies
+RUN git clone https://github.com/InnopolisAero/uavcan_msgs.git /catkin_ws/src/uavcan_msgs
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /catkin_ws && catkin build
+
+# 4. Copy the source files
+COPY config/ config/
+COPY launch/ launch/
+COPY src/ src/
+COPY CMakeLists.txt     CMakeLists.txt
+COPY package.xml        package.xml
 
 # 5. For custom uavcan msgs
 # COPY custom_msgs/ custom_msgs/
 # RUN ./scripts/compile_dsdl.sh
 
 # 6. Build
-RUN source /opt/ros/melodic/setup.bash      &&  \
-    cd ../../                               &&  \
-    catkin build
-
+RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /catkin_ws && catkin build
 
 CMD source /opt/ros/melodic/setup.bash      && \
     source /catkin_ws/devel/setup.bash      && \
     echo "main process has been started"    && \
-    echo "do nothing yet"                   && \
     echo "container has been finished"

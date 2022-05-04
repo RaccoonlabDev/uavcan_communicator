@@ -1,5 +1,13 @@
 #!/bin/bash
 
 cd "$(dirname "$0")"
-apt-get install -y can-utils
+sudo apt-get install -y can-utils  \
+                        iputils-ping    \
+                        iproute2        \
+                        net-tools       \
+                        tcpdump         \
+                        nmap            \
+                        socat           \
+                        kmod
+
 pip install -r requirements.txt
