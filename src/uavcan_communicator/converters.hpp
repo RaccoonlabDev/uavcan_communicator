@@ -13,9 +13,9 @@
 #include <sensor_msgs/BatteryState.h>
 #include <std_msgs/Bool.h>
 #include <std_msgs/UInt8.h>
+#include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
 #include <uavcan_msgs/StaticPressure.h>
-#include <uavcan_msgs/StaticTemperature.h>
 #include <uavcan_msgs/RawAirData.h>
 #include <uavcan_msgs/Fix.h>
 #include <uavcan_msgs/CircuitStatus.h>
@@ -147,7 +147,7 @@ public:
 
 
 class BaroStaticTemperatureRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::StaticTemperature,
+    std_msgs::Float32,
     uavcan::equipment::air_data::StaticTemperature> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:

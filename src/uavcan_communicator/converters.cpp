@@ -88,7 +88,7 @@ void BaroStaticPressureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
 
 
 void BaroStaticTemperatureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    out_uavcan_msg_.static_temperature = in_ros_msg->static_temperature;
+    out_uavcan_msg_.static_temperature = in_ros_msg->data;
     out_uavcan_msg_.static_temperature_variance = 1;
     int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
     if (pub_res < 0) {
