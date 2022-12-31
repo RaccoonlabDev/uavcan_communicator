@@ -15,7 +15,6 @@
 #include <std_msgs/UInt8.h>
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
-#include <uavcan_msgs/StaticPressure.h>
 #include <uavcan_msgs/RawAirData.h>
 #include <uavcan_msgs/Fix.h>
 #include <uavcan_msgs/CircuitStatus.h>
@@ -137,7 +136,7 @@ public:
 
 
 class BaroStaticPressureRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::StaticPressure,
+    std_msgs::Float32,
     uavcan::equipment::air_data::StaticPressure> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
