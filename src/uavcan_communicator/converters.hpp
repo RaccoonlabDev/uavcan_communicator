@@ -21,6 +21,7 @@
 
 #include <ros/ros.h>
 #include <sensor_msgs/Imu.h>
+#include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/Joy.h>
 #include <sensor_msgs/MagneticField.h>
 #include <sensor_msgs/BatteryState.h>
@@ -28,7 +29,6 @@
 #include <std_msgs/UInt8.h>
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
-#include <uavcan_msgs/Fix.h>
 #include <uavcan_msgs/CircuitStatus.h>
 #include <uavcan_msgs/EscStatus.h>
 #include <uavcan_msgs/IceReciprocatingStatus.h>
@@ -198,12 +198,19 @@ public:
 
 
 class GpsRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::Fix,
+    sensor_msgs::NavSatFix,
     uavcan::equipment::gnss::Fix> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
+    void ros_velocity_callback(geometry_msgs::Twist::Ptr in_ros_msg);
+    ros::Subscriber ros_velocity_sub_;
 public:
     GpsRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {
+        ros_velocity_sub_ = ros_node.subscribe("/uav/velocity", 1, &GpsRosToUavcan::ros_velocity_callback, this);
+        out_uavcan_msg_.sats_used = 10.0;
+        out_uavcan_msg_.status = 3;
+        out_uavcan_msg_.pdop = 1.0;
+    }
 };
 
 
