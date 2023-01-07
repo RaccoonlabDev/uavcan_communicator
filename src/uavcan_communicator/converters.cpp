@@ -112,16 +112,16 @@ void DiffPressureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
 
 
 void GpsRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    out_uavcan_msg_.latitude_deg_1e8 = in_ros_msg->latitude_deg_1e8;
-    out_uavcan_msg_.longitude_deg_1e8 = in_ros_msg->longitude_deg_1e8;
-    out_uavcan_msg_.height_msl_mm = in_ros_msg->height_msl_mm;
-    out_uavcan_msg_.ned_velocity[0] = in_ros_msg->ned_velocity.x;
-    out_uavcan_msg_.ned_velocity[1] = in_ros_msg->ned_velocity.y;
-    out_uavcan_msg_.ned_velocity[2] = in_ros_msg->ned_velocity.z;
-    out_uavcan_msg_.sats_used = in_ros_msg->sats_used;
-    out_uavcan_msg_.status = in_ros_msg->status;
-    out_uavcan_msg_.pdop = in_ros_msg->pdop;
+    out_uavcan_msg_.latitude_deg_1e8 = in_ros_msg->latitude * 1e8;
+    out_uavcan_msg_.longitude_deg_1e8 = in_ros_msg->longitude * 1e8;
+    out_uavcan_msg_.height_msl_mm = in_ros_msg->altitude * 1e3;
     broadcast();
+}
+
+void GpsRosToUavcan::ros_velocity_callback(geometry_msgs::Twist::Ptr in_ros_msg) {
+    out_uavcan_msg_.ned_velocity[0] = in_ros_msg->linear.x;
+    out_uavcan_msg_.ned_velocity[1] = in_ros_msg->linear.y;
+    out_uavcan_msg_.ned_velocity[2] = in_ros_msg->linear.z;
 }
 
 

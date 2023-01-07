@@ -6,7 +6,7 @@ bridges:                  ["ActuatorsUavcanToRos",              "/uav/actuators"
                            "BaroStaticPressureRosToUavcan",     "/uav/static_pressure",
                            "BaroStaticTemperatureRosToUavcan",  "/uav/static_temperature",
                            "DiffPressureRosToUavcan",           "/uav/raw_air_data",
-                           "GpsRosToUavcan",                    "/uav/gps_position",
+                           "GpsRosToUavcan",                    "/uav/gps_point",
                            "ImuRosToUavcan",                    "/uav/imu",
                            "MagnetometerRosToUavcan",           "/uav/mag"
 ]
