@@ -1,4 +1,4 @@
-# DroneCAN communicator
+# DroneCAN communicator [![Build Status](https://build.ros.org/job/Ndev__uavcan_communicator__ubuntu_focal_amd64/badge/icon)](https://build.ros.org/job/Ndev__uavcan_communicator__ubuntu_focal_amd64/) [![Build Status](https://build.ros.org/job/Ndev_db__uavcan_communicator__debian_buster_amd64/badge/icon)](https://build.ros.org/job/Ndev_db__uavcan_communicator__debian_buster_amd64/) [![Build Status](https://build.ros.org/job/Mdev__uavcan_communicator__ubuntu_bionic_amd64/badge/icon)](https://build.ros.org/job/Mdev__uavcan_communicator__ubuntu_bionic_amd64/)
 
 DroneCAN communicator converts DroneCAN messages to ROS and vice versa.
 
@@ -24,9 +24,9 @@ The tables below represent the supported conversions:
 
 | № | Brige name | ROS msg                               | DroneCAN msg                                     |
 | - | ---------- | ------------------------------------- |----------------------------------------------- |
-| 1 | BaroStaticTemperatureRosToUavcan | uavcan_msgs/StaticTemperature | [air_data::StaticTemperature](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#statictemperature) |
-| 2 | BaroStaticPressureRosToUavcan | uavcan_msgs/StaticPressure    | [air_data::StaticPressure](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#staticpressure)    |
-| 3 | DiffPressureRosToUavcan | uavcan_msgs/RawAirData        | [air_data::RawAirData](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawairdata)        |
+| 1 | BaroStaticTemperatureRosToUavcan | [std_msgs/Float32](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/Float32.html) | [air_data::StaticTemperature](https://dronecan.github.io/Specification/7._List_of_standard_data_types/#statictemperature) |
+| 2 | BaroStaticPressureRosToUavcan | [std_msgs/Float32](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/Float32.html) | [air_data::StaticPressure](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#staticpressure)    |
+| 3 | DiffPressureRosToUavcan | [std_msgs/Float32](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/Float32.html) | [air_data::RawAirData](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawairdata)        |
 | 4 | GpsRosToUavcan | uavcan_msgs/Fix               | [gnss::Fix](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fix)                   |
 | 5 | ImuRosToUavcan | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
 | 6 | MagnetometerRosToUavcan | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
@@ -44,7 +44,7 @@ You need to perform the following steps to use this package:
 1. Clone this repository using recursive. Update submodules every time you pull this repo
 2. Install required packages using `install_requirements.sh` script
 3. Build [libuavcan v0.1](https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application) as a static library and install it on the system globally
-4. (optionally) Build dsds if you want to use custom messages
+4. (optionally) Build DSDL if you want to use custom messages
 
 ```
 cd catkin_ws/src
