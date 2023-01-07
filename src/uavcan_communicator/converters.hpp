@@ -78,14 +78,16 @@ protected:
 
 template<typename IN_ROS, typename OUT_UAVCAN>
 class RosToUavcanConverter: public Converter {
+public:
+    typedef OUT_UAVCAN OUT_UAVCAN_MSG;
+    OUT_UAVCAN_MSG out_uavcan_msg_;
+    bool enabled{true};
 protected:
     typedef IN_ROS IN_ROS_MSG;
     typedef typename IN_ROS::Ptr IN_ROS_MSG_PTR;
-    typedef OUT_UAVCAN OUT_UAVCAN_MSG;
 
     uavcan::Publisher<OUT_UAVCAN_MSG> uavcan_pub_;
     ros::Subscriber ros_sub_;
-    OUT_UAVCAN_MSG out_uavcan_msg_;
     std::string _name;
 
     virtual void ros_callback(IN_ROS_MSG_PTR in_ros_msg) = 0;
@@ -95,6 +97,9 @@ protected:
     }
 
     void broadcast() {
+        if (enabled == false) {
+            return;
+        }
         int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
         if (pub_res < 0) {
             std::cerr << _name << " publication failure: " << pub_res << std::endl;
@@ -179,9 +184,16 @@ class DiffPressureRosToUavcan: public RosToUavcanConverter<
     std_msgs::Float32,
     uavcan::equipment::air_data::RawAirData> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
+    BaroStaticPressureRosToUavcan _pressure;
+    BaroStaticTemperatureRosToUavcan _temperature;
 public:
     DiffPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__),
+        _pressure(ros_node, uavcan_node, "/uav/static_pressure"),
+        _temperature(ros_node, uavcan_node, "/uav/static_temperature") {
+            _pressure.enabled = false;
+            _temperature.enabled = false;
+        }
 };
 
 

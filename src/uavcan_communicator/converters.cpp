@@ -104,8 +104,8 @@ void BaroStaticTemperatureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
 
 
 void DiffPressureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    // out_uavcan_msg_.static_air_temperature = in_ros_msg->static_air_temperature;
-    // out_uavcan_msg_.static_pressure = in_ros_msg->static_pressure;
+    out_uavcan_msg_.static_air_temperature = _temperature.out_uavcan_msg_.static_temperature;
+    out_uavcan_msg_.static_pressure = _pressure.out_uavcan_msg_.static_pressure;
     out_uavcan_msg_.differential_pressure = in_ros_msg->data;
     broadcast();
 }
