@@ -23,26 +23,29 @@ static UavcanNode& getUavcanNode() {
 
 int main(int argc, char** argv) {
     ///< 1. Init ros node
-    ros::init(argc, argv, "uavcan_communicator");
+    ros::init(argc, argv, "dronecan_communicator");
     if (ros::console::set_logger_level(ROSCONSOLE_DEFAULT_NAME, ros::console::levels::Debug)) {
         ros::console::notifyLoggerLevelsChanged();
     }
     ros::NodeHandle ros_node;
 
 
-    ///< 2. Init uavcan node
+    ///< 2. Init DroneCAN node
     int node_id;
-    std::string uavcan_node_name;
-    if (ros_node.getParam("uavcan_node_id", node_id)) {
-        std::cout << "Param node_id: " << node_id << std::endl;
+    std::string node_id_param = "uavcan_node_id";
+    if (ros_node.getParam(node_id_param.c_str(), node_id)) {
+        std::cout << "Param " << node_id_param << ": " << node_id << std::endl;
     } else {
-        std::cout << "Param problem: You should specify node_id in your config file." << std::endl;
+        std::cout << "Param " << node_id_param << ": is missing in your config file." << std::endl;
         return -1;
     }
-    if (ros_node.getParam("uavcan_node_name", uavcan_node_name)) {
-        std::cout << "Param node_id: " << uavcan_node_name << std::endl;
+
+    std::string uavcan_node_name;
+    std::string node_name_param = "uavcan_node_name";
+    if (ros_node.getParam(node_name_param.c_str(), uavcan_node_name)) {
+        std::cout << "Param " << node_name_param << ": " << uavcan_node_name << std::endl;
     } else {
-        std::cout << "Param problem: You should specify node_id in your config file." << std::endl;
+        std::cout << "Param " << node_name_param << ": is missing in your config file." << std::endl;
         return -1;
     }
 
@@ -71,14 +74,11 @@ int main(int argc, char** argv) {
             return -1;
         }
         for (size_t idx = 0; idx < bridges.size(); idx += 2) {
-            std::string converter_name = bridges[idx];
-            std::string converter_topic = bridges[idx + 1];
-            std::unique_ptr<Converter> converter = instantiate_converter(converter_name,
-                                                                         ros_node,
-                                                                         uavcan_node,
-                                                                         converter_topic.c_str());
-            std::cout << idx / 2 << ". Creation of converter with name `" << converter_name << "` "
-                      << "and topic `" << converter_topic << "` has been ";
+            auto bridge_name = bridges[idx];
+            auto topic_name = bridges[idx + 1].c_str();
+            auto converter = instantiate_converter(bridge_name, ros_node, uavcan_node, topic_name);
+            std::cout << idx / 2 << ". Creation of converter with name `" << bridge_name << "` "
+                      << "and topic `" << topic_name << "` has been ";
             if (converter.get() == nullptr) {
                 std::cout << "failed: wrong converter name. Finish." << std::endl;
                 return -1;

@@ -15,7 +15,6 @@
 #include <std_msgs/UInt8.h>
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
-#include <uavcan_msgs/RawAirData.h>
 #include <uavcan_msgs/Fix.h>
 #include <uavcan_msgs/CircuitStatus.h>
 #include <uavcan_msgs/EscStatus.h>
@@ -74,11 +73,19 @@ protected:
     uavcan::Publisher<OUT_UAVCAN_MSG> uavcan_pub_;
     ros::Subscriber ros_sub_;
     OUT_UAVCAN_MSG out_uavcan_msg_;
+    std::string _name;
 
     virtual void ros_callback(IN_ROS_MSG_PTR in_ros_msg) = 0;
-    RosToUavcanConverter(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        uavcan_pub_(uavcan_node) {
+    RosToUavcanConverter(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic, std::string name):
+        uavcan_pub_(uavcan_node), _name(name) {
         ros_sub_ = ros_node.subscribe(ros_topic, 1, &RosToUavcanConverter::ros_callback, this);
+    }
+
+    void broadcast() {
+        int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
+        if (pub_res < 0) {
+            std::cerr << _name << " publication failure: " << pub_res << std::endl;
+        }
     }
 };
 
@@ -141,7 +148,7 @@ class BaroStaticPressureRosToUavcan: public RosToUavcanConverter<
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     BaroStaticPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 
@@ -151,17 +158,17 @@ class BaroStaticTemperatureRosToUavcan: public RosToUavcanConverter<
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     BaroStaticTemperatureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 
 class DiffPressureRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::RawAirData,
+    std_msgs::Float32,
     uavcan::equipment::air_data::RawAirData> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     DiffPressureRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 
@@ -171,7 +178,7 @@ class GpsRosToUavcan: public RosToUavcanConverter<
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     GpsRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 
@@ -181,7 +188,7 @@ class ImuRosToUavcan: public RosToUavcanConverter<
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     ImuRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 
@@ -191,7 +198,7 @@ class MagnetometerRosToUavcan: public RosToUavcanConverter<
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 public:
     MagnetometerRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 class EscStatusRosToUavcan: public RosToUavcanConverter<
@@ -201,7 +208,7 @@ class EscStatusRosToUavcan: public RosToUavcanConverter<
 
 public:
     EscStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 class IceReciprocatingStatusRosToUavcan: public RosToUavcanConverter<
@@ -211,7 +218,7 @@ class IceReciprocatingStatusRosToUavcan: public RosToUavcanConverter<
 
 public:
     IceReciprocatingStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<
@@ -221,7 +228,7 @@ class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<
 
 public:
     IceFuelTankStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 class BatteryInfoRosToUavcan: public RosToUavcanConverter<
@@ -231,7 +238,7 @@ class BatteryInfoRosToUavcan: public RosToUavcanConverter<
 
 public:
     BatteryInfoRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
 };
 
 
