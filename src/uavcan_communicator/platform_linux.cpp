@@ -1,6 +1,6 @@
 /**
 * @file platform_linux.cpp
-* @note from uavcan demo
+* @note from UAVCAN demo
 */
 
 #include <uavcan_linux/uavcan_linux.hpp>
