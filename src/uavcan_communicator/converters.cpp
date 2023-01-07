@@ -80,32 +80,22 @@ void EscStatusUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<I
 void BaroStaticPressureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.static_pressure = in_ros_msg->data;
     out_uavcan_msg_.static_pressure_variance = 1;
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "BaroStaticPressureRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 
 void BaroStaticTemperatureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.static_temperature = in_ros_msg->data;
     out_uavcan_msg_.static_temperature_variance = 1;
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "BaroStaticTemperatureRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 
 void DiffPressureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    out_uavcan_msg_.static_air_temperature = in_ros_msg->static_air_temperature;
-    out_uavcan_msg_.static_pressure = in_ros_msg->static_pressure;
-    out_uavcan_msg_.differential_pressure = in_ros_msg->differential_pressure;
-
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "DiffPressureRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    // out_uavcan_msg_.static_air_temperature = in_ros_msg->static_air_temperature;
+    // out_uavcan_msg_.static_pressure = in_ros_msg->static_pressure;
+    out_uavcan_msg_.differential_pressure = in_ros_msg->data;
+    broadcast();
 }
 
 
@@ -119,10 +109,7 @@ void GpsRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.sats_used = in_ros_msg->sats_used;
     out_uavcan_msg_.status = in_ros_msg->status;
     out_uavcan_msg_.pdop = in_ros_msg->pdop;
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "GpsRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 
@@ -135,10 +122,7 @@ void ImuRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.accelerometer_latest[1] = in_ros_msg->linear_acceleration.y;
     out_uavcan_msg_.accelerometer_latest[2] = in_ros_msg->linear_acceleration.z;
 
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "ImuRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 
@@ -146,11 +130,7 @@ void MagnetometerRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.magnetic_field_ga[0] = in_ros_msg->magnetic_field.x;
     out_uavcan_msg_.magnetic_field_ga[1] = in_ros_msg->magnetic_field.y;
     out_uavcan_msg_.magnetic_field_ga[2] = in_ros_msg->magnetic_field.z;
-
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "MagnetometerRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 void EscStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
@@ -161,11 +141,7 @@ void EscStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.rpm = in_ros_msg->rpm;
     out_uavcan_msg_.power_rating_pct = in_ros_msg->power_rating_pct;
     out_uavcan_msg_.esc_index = in_ros_msg->esc_index;
-
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "EscStatusRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 void IceReciprocatingStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
@@ -189,10 +165,7 @@ void IceReciprocatingStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) 
     out_uavcan_msg_.ecu_index = in_ros_msg->ecu_index;
     out_uavcan_msg_.spark_plug_usage = in_ros_msg->spark_plug_usage;
 
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "IceReciprocatingStatusRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 void IceFuelTankStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
@@ -201,11 +174,7 @@ void IceFuelTankStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.fuel_consumption_rate_cm3pm = in_ros_msg->fuel_consumption_rate_cm3pm;
     out_uavcan_msg_.fuel_temperature = in_ros_msg->fuel_temperature;
     out_uavcan_msg_.fuel_tank_id = in_ros_msg->fuel_tank_id;
-
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "IceFuelTankStatusRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 void BatteryInfoRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
@@ -236,10 +205,7 @@ void BatteryInfoRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     ///< - power_supply_technology
     ///< - location
 
-    int pub_res = uavcan_pub_.broadcast(out_uavcan_msg_);
-    if (pub_res < 0) {
-        std::cerr << "BatteryInfoRosToUavcan publication failure: " << pub_res << std::endl;
-    }
+    broadcast();
 }
 
 std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
