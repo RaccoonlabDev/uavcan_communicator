@@ -22,12 +22,10 @@ RUN scripts/install_libuavcan.sh
 RUN git clone https://github.com/InnopolisAero/uavcan_msgs.git /catkin_ws/src/uavcan_msgs
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /catkin_ws && catkin build
 
-# 4. Copy the source files
-COPY config/ config/
-COPY launch/ launch/
-COPY src/ src/
+# 4. Copy main package files
 COPY CMakeLists.txt     CMakeLists.txt
 COPY package.xml        package.xml
+COPY src/ src/
 
 # 5. For custom uavcan msgs
 # COPY custom_msgs/ custom_msgs/
@@ -36,7 +34,12 @@ COPY package.xml        package.xml
 # 6. Build
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /catkin_ws && catkin build
 
-CMD source /opt/ros/melodic/setup.bash      && \
-    source /catkin_ws/devel/setup.bash      && \
-    echo "main process has been started"    && \
+# 7. Copy auxilliary package files
+COPY config/ config/
+COPY launch/ launch/
+
+CMD source /opt/ros/$ROS_DISTRO/setup.bash && \
+    source /catkin_ws/devel/setup.bash && \
+    echo "main process has been started" && \
+    roslaunch uavcan_communicator inno_dynamics_communicator.launch && \
     echo "container has been finished"
