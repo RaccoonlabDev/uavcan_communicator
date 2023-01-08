@@ -18,23 +18,19 @@ COPY libs/ libs/
 RUN scripts/install_requirements.sh
 RUN scripts/install_libuavcan.sh
 
-# 3. Install dependencies
-RUN git clone https://github.com/InnopolisAero/uavcan_msgs.git /catkin_ws/src/uavcan_msgs
-RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /catkin_ws && catkin build
-
-# 4. Copy main package files
+# 3. Copy main package files
 COPY CMakeLists.txt     CMakeLists.txt
 COPY package.xml        package.xml
 COPY src/ src/
 
-# 5. For custom uavcan msgs
+# 4. For custom uavcan msgs
 # COPY custom_msgs/ custom_msgs/
 # RUN ./scripts/compile_dsdl.sh
 
-# 6. Build
+# 5. Build
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && cd /catkin_ws && catkin build
 
-# 7. Copy auxilliary package files
+# 6. Copy auxilliary package files
 COPY config/ config/
 COPY launch/ launch/
 

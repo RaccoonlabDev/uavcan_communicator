@@ -33,10 +33,6 @@ jobs:
           ./scripts/install_requirements.sh                                 &&  \
           ./scripts/install_libuavcan.sh
 
-      - name: Dependencies
-        run: |
-          git clone https://github.com/InnopolisAero/uavcan_msgs.git catkin_ws/src/uavcan_msgs
-
       # - name: Generate custom dsdl
       #   run: |
       #     cd catkin_ws/src/uavcan_communicator                              &&  \

@@ -36,8 +36,6 @@ The tables below represent the supported conversions:
 | 9 | IceFuelTankStatusRosToUavcan | [std_msgs/UInt8](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/UInt8.html) | [ice::FuelTankStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fueltankstatus) |
 | 10 | BatteryInfoRosToUavcan | [sensor_msgs/BatteryState](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/BatteryState.html)             | [power::BatteryInfo](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#batteryinfo) |
 
-Here we try to use default ROS messages as much as possible, but sometimes we need to define our own messages `uavcan_msgs`.
-
 ## 2. Preparation
 
 You need to perform the following steps to use this package:
