@@ -156,28 +156,14 @@ void EscStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
 }
 
 void IceReciprocatingStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    out_uavcan_msg_.state = in_ros_msg->state;
-    out_uavcan_msg_.flags = in_ros_msg->flags;
-    out_uavcan_msg_.engine_load_percent = in_ros_msg->engine_load_percent;
-    out_uavcan_msg_.engine_speed_rpm = in_ros_msg->engine_speed_rpm;
-
-    out_uavcan_msg_.spark_dwell_time_ms = in_ros_msg->spark_dwell_time_ms;
-    out_uavcan_msg_.atmospheric_pressure_kpa = in_ros_msg->atmospheric_pressure_kpa;
-    out_uavcan_msg_.intake_manifold_pressure_kpa = in_ros_msg->intake_manifold_pressure_kpa;
-    out_uavcan_msg_.intake_manifold_temperature = in_ros_msg->intake_manifold_temperature;
-    out_uavcan_msg_.coolant_temperature = in_ros_msg->coolant_temperature;
-    out_uavcan_msg_.oil_pressure = in_ros_msg->oil_pressure;
-    out_uavcan_msg_.oil_temperature = in_ros_msg->oil_temperature;
-    out_uavcan_msg_.fuel_pressure = in_ros_msg->fuel_pressure;
-    out_uavcan_msg_.fuel_consumption_rate_cm3pm = in_ros_msg->fuel_consumption_rate_cm3pm;
-    out_uavcan_msg_.estimated_consumed_fuel_volume_cm3 = in_ros_msg->estimated_consumed_fuel_volume_cm3;
-
-    out_uavcan_msg_.throttle_position_percent = in_ros_msg->throttle_position_percent;
-    out_uavcan_msg_.ecu_index = in_ros_msg->ecu_index;
-    out_uavcan_msg_.spark_plug_usage = in_ros_msg->spark_plug_usage;
-
+    out_uavcan_msg_.engine_speed_rpm = in_ros_msg->rpm;
     broadcast();
 }
+
+void IceReciprocatingStatusRosToUavcan::ros_status_callback(std_msgs::UInt8 in_ros_msg) {
+    out_uavcan_msg_.state = in_ros_msg.data;
+}
+
 
 void IceFuelTankStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.available_fuel_volume_percent = in_ros_msg->data;

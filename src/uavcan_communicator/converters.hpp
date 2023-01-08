@@ -30,8 +30,8 @@
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
 #include <mavros_msgs/ESCTelemetryItem.h>
+#include <mavros_msgs/ESCStatusItem.h>
 #include <uavcan_msgs/CircuitStatus.h>
-#include <uavcan_msgs/IceReciprocatingStatus.h>
 
 #include <iostream>
 #include <memory>
@@ -243,13 +243,16 @@ public:
 };
 
 class IceReciprocatingStatusRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::IceReciprocatingStatus,
+    mavros_msgs::ESCStatusItem,
     uavcan::equipment::ice::reciprocating::Status> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
-
+    void ros_status_callback(std_msgs::UInt8 in_ros_msg);
+    ros::Subscriber ros_status_sub_;
 public:
     IceReciprocatingStatusRosToUavcan(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
-        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {}
+        RosToUavcanConverter(ros_node, uavcan_node, ros_topic, __FUNCTION__) {
+        ros_status_sub_ = ros_node.subscribe("/uav/ice_status", 1, &IceReciprocatingStatusRosToUavcan::ros_status_callback, this);
+    }
 };
 
 class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<

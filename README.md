@@ -32,7 +32,7 @@ The tables below represent the supported conversions:
 | 5 | ImuRosToUavcan | [sensor_msgs/Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)                       | [ahrs::RawIMU](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawimu)                |
 | 6 | MagnetometerRosToUavcan | [sensor_msgs/MagneticField](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/MagneticField.html)             | [ahrs::MagneticFieldStrength](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#magneticfieldstrength) |
 | 7 | EscStatusRosToUavcan | [mavros_msgs::ESCTelemetryItem](http://docs.ros.org/en/api/mavros_msgs/html/msg/ESCTelemetryItem.html) | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
-| 8 | IceReciprocatingStatusRosToUavcan | uavcan_msgs/IceReciprocatingStatus             | [ice::reciprocating::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-4) |
+| 8 | IceReciprocatingStatusRosToUavcan | [mavros_msgs::ESCStatusItem](http://docs.ros.org/en/api/mavros_msgs/html/msg/ESCStatusItem.html) | [ice::reciprocating::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-4) |
 | 9 | IceFuelTankStatusRosToUavcan | [std_msgs/UInt8](http://docs.ros.org/en/melodic/api/std_msgs/html/msg/UInt8.html) | [ice::FuelTankStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#fueltankstatus) |
 | 10 | BatteryInfoRosToUavcan | [sensor_msgs/BatteryState](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/BatteryState.html)             | [power::BatteryInfo](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#batteryinfo) |
 
