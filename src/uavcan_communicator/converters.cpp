@@ -181,11 +181,7 @@ void IceReciprocatingStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) 
 }
 
 void IceFuelTankStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    out_uavcan_msg_.available_fuel_volume_percent = in_ros_msg->available_fuel_volume_percent;
-    out_uavcan_msg_.available_fuel_volume_cm3 = in_ros_msg->available_fuel_volume_cm3;
-    out_uavcan_msg_.fuel_consumption_rate_cm3pm = in_ros_msg->fuel_consumption_rate_cm3pm;
-    out_uavcan_msg_.fuel_temperature = in_ros_msg->fuel_temperature;
-    out_uavcan_msg_.fuel_tank_id = in_ros_msg->fuel_tank_id;
+    out_uavcan_msg_.available_fuel_volume_percent = in_ros_msg->data;
     broadcast();
 }
 
@@ -207,15 +203,6 @@ void BatteryInfoRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     out_uavcan_msg_.state_of_charge_pct_stdev = 0;  ///< use best guess if unknown
     out_uavcan_msg_.battery_id = 0;                 ///< 0 - primary battery
     out_uavcan_msg_.model_name = "simulated_battery";
-
-    ///< Unused ros data:
-    ///< - power_supply_status
-    ///< - power_supply_health
-    ///< - present
-    ///< - unused charge
-    ///< - serial_number
-    ///< - power_supply_technology
-    ///< - location
 
     broadcast();
 }
