@@ -1,15 +1,13 @@
-FROM ros:melodic
-LABEL description="Uavcan communicator"
+ARG ROS_DISTRO=noetic
+
+FROM ros:$ROS_DISTRO
+LABEL description="DroneCAN communicator"
 LABEL maintainer="ponomarevda96@gmail.com"
 SHELL ["/bin/bash", "-c"]
-WORKDIR /catkin_ws/src/uavcan_communicator
+WORKDIR /catkin_ws/src/dronecan_communicator
 
 # 1. Install basic requirements
-RUN sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-    apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
-    apt-get update                          &&  \
-    apt-get upgrade -y                      &&  \
-    apt-get install -y  git python-catkin-tools python-pip python3-pip
+RUN apt-get update && apt-get upgrade -y && apt-get install -y git ros-$ROS_DISTRO-catkin python3-pip python3-catkin-tools
 RUN if [[ "$ROS_DISTRO" = "melodic" ]] ; then apt-get install -y python-pip python-catkin-tools ; fi
 
 # 2. Install package requirements
@@ -23,7 +21,7 @@ COPY CMakeLists.txt     CMakeLists.txt
 COPY package.xml        package.xml
 COPY src/ src/
 
-# 4. For custom uavcan msgs
+# 4. For custom DroneCAN msgs
 # COPY custom_msgs/ custom_msgs/
 # RUN ./scripts/compile_dsdl.sh
 
