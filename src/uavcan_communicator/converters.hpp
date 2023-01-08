@@ -29,9 +29,9 @@
 #include <std_msgs/UInt8.h>
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
+#include <mavros_msgs/BatteryStatus.h>
 #include <mavros_msgs/ESCTelemetryItem.h>
 #include <mavros_msgs/ESCStatusItem.h>
-#include <uavcan_msgs/CircuitStatus.h>
 
 #include <iostream>
 #include <memory>
@@ -150,7 +150,7 @@ public:
 
 class CircuitStatusUavcanToRos: public UavcanToRosConverter<
     uavcan::equipment::power::CircuitStatus,
-    uavcan_msgs::CircuitStatus> {
+    mavros_msgs::BatteryStatus> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
 public:

@@ -69,10 +69,9 @@ void ArmUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVC
 
 
 void CircuitStatusUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
-    ros_msg_.circuit_id = uavcan_msg.circuit_id;
+    ros_msg_.header.frame_id = std::to_string(uavcan_msg.circuit_id);
     ros_msg_.voltage = uavcan_msg.voltage;
     ros_msg_.current = uavcan_msg.current;
-    ros_msg_.error_flags = uavcan_msg.error_flags;
     ros_pub_.publish(ros_msg_);
 }
 
