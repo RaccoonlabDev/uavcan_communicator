@@ -18,7 +18,7 @@ The tables below represent the supported conversions:
 | 2 | ArmUavcanToRos         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand) |
 | 3 | AhrsSolutionUavcanToRos | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
 | 4 | EscStatusUavcanToRos | [mavros_msgs::ESCTelemetryItem](http://docs.ros.org/en/api/mavros_msgs/html/msg/ESCTelemetryItem.html) | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
-| 5 | CircuitStatusUavcanToRos | uavcan_msgs::CircuitStatus | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
+| 5 | CircuitStatusUavcanToRos | [mavros_msgs::BatteryStatus](http://docs.ros.org/en/api/mavros_msgs/html/msg/BatteryStatus.html) | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
 
 **ROS->DroneCAN**
 
