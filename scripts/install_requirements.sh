@@ -8,6 +8,7 @@ sudo apt-get install -y can-utils  \
                         tcpdump         \
                         nmap            \
                         socat           \
-                        kmod
+                        kmod            \
+                        ros-$ROS_DISTRO-mavros-msgs
 
 pip install -r requirements.txt
