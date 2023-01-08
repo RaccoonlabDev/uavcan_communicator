@@ -10,6 +10,7 @@
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>uavcan_msgs</depend>
+  <depend>mavros_msgs</depend>
   
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>

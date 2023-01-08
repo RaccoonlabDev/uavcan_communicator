@@ -6,6 +6,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   uavcan_msgs
+  mavros_msgs
 )
 
 find_library(UAVCAN_LIB uavcan REQUIRED)

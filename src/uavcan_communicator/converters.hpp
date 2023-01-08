@@ -29,8 +29,8 @@
 #include <std_msgs/UInt8.h>
 #include <std_msgs/Float32.h>
 #include <geometry_msgs/Twist.h>
+#include <mavros_msgs/ESCTelemetryItem.h>
 #include <uavcan_msgs/CircuitStatus.h>
-#include <uavcan_msgs/EscStatus.h>
 #include <uavcan_msgs/IceReciprocatingStatus.h>
 
 #include <iostream>
@@ -139,7 +139,7 @@ public:
 
 class EscStatusUavcanToRos: public UavcanToRosConverter<
     uavcan::equipment::esc::Status,
-    uavcan_msgs::EscStatus> {
+    mavros_msgs::ESCTelemetryItem> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
 public:
@@ -233,7 +233,7 @@ public:
 };
 
 class EscStatusRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::EscStatus,
+    mavros_msgs::ESCTelemetryItem,
     uavcan::equipment::esc::Status> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 

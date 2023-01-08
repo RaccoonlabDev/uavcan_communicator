@@ -78,13 +78,12 @@ void CircuitStatusUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructu
 
 
 void EscStatusUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
-    ros_msg_.error_count = uavcan_msg.error_count;
+    ros_msg_.temperature = uavcan_msg.temperature;
     ros_msg_.voltage = uavcan_msg.voltage;
     ros_msg_.current = uavcan_msg.current;
-    ros_msg_.temperature = uavcan_msg.temperature;
+    ros_msg_.totalcurrent = 0;
     ros_msg_.rpm = uavcan_msg.rpm;
-    ros_msg_.power_rating_pct = uavcan_msg.power_rating_pct;
-    ros_msg_.esc_index = uavcan_msg.esc_index;
+    ros_msg_.count = uavcan_msg.esc_index;
     ros_pub_.publish(ros_msg_);
 }
 
@@ -146,13 +145,13 @@ void MagnetometerRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
 }
 
 void EscStatusRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
-    out_uavcan_msg_.error_count = in_ros_msg->error_count;
+    out_uavcan_msg_.error_count = 0;
     out_uavcan_msg_.voltage = in_ros_msg->voltage;
     out_uavcan_msg_.current = in_ros_msg->current;
     out_uavcan_msg_.temperature = in_ros_msg->temperature;
     out_uavcan_msg_.rpm = in_ros_msg->rpm;
-    out_uavcan_msg_.power_rating_pct = in_ros_msg->power_rating_pct;
-    out_uavcan_msg_.esc_index = in_ros_msg->esc_index;
+    out_uavcan_msg_.power_rating_pct = 0;
+    out_uavcan_msg_.esc_index = in_ros_msg->count;
     broadcast();
 }
 
