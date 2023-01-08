@@ -32,7 +32,6 @@
 #include <uavcan_msgs/CircuitStatus.h>
 #include <uavcan_msgs/EscStatus.h>
 #include <uavcan_msgs/IceReciprocatingStatus.h>
-#include <uavcan_msgs/IceFuelTankStatus.h>
 
 #include <iostream>
 #include <memory>
@@ -254,7 +253,7 @@ public:
 };
 
 class IceFuelTankStatusRosToUavcan: public RosToUavcanConverter<
-    uavcan_msgs::IceFuelTankStatus,
+    std_msgs::UInt8,
     uavcan::equipment::ice::FuelTankStatus> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
 
