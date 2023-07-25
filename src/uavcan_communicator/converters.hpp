@@ -46,7 +46,7 @@
 #include <uavcan/equipment/air_data/StaticTemperature.hpp>
 #include <uavcan/equipment/esc/RawCommand.hpp>
 #include <uavcan/equipment/esc/Status.hpp>
-#include <uavcan/equipment/gnss/Fix.hpp>
+#include <uavcan/equipment/gnss/Fix2.hpp>
 #include <uavcan/equipment/ice/FuelTankStatus.hpp>
 #include <uavcan/equipment/ice/reciprocating/Status.hpp>
 #include <uavcan/equipment/power/CircuitStatus.hpp>
@@ -198,7 +198,7 @@ public:
 
 class GpsRosToUavcan: public RosToUavcanConverter<
     sensor_msgs::NavSatFix,
-    uavcan::equipment::gnss::Fix> {
+    uavcan::equipment::gnss::Fix2> {
     void ros_callback(IN_ROS_MSG_PTR in_ros_msg) override;
     void ros_velocity_callback(geometry_msgs::Twist::Ptr in_ros_msg);
     ros::Subscriber ros_velocity_sub_;
