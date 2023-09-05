@@ -17,21 +17,48 @@
  */
 
 #include "converters.hpp"
+#include <algorithm>
 
 
-void ActuatorsUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
-    if (uavcan_msg.cmd.size() > 0 && uavcan_msg.cmd.size() <= 20) {
-        sensor_msgs::Joy ros_msg;
-        ros_msg.header.stamp = ros::Time::now();
-        for (auto cmd : uavcan_msg.cmd) {
-            if (cmd >= 0) {
-                ros_msg.axes.push_back(cmd / 8091.0);
-            } else {
-                ros_msg.axes.push_back(cmd / 8092.0);
-            }
-        }
-        ros_pub_.publish(ros_msg);
+/**
+ * @note It is expected that all actuator_id are exactly the same as their indexes in the array
+ */
+void ArrayCommandUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
+    if (uavcan_msg.commands.size() <= 0 || uavcan_msg.commands.size() > 15) {
+        return;
     }
+
+    sensor_msgs::Joy ros_msg;
+    ros_msg.header.stamp = ros::Time::now();
+    for (auto command : uavcan_msg.commands) {
+        float command_value;
+        if (command.command_value < 1.0) {
+            command_value = -1.0f;
+        } else if (command.command_value > 1.0) {
+            command_value = +1.0f;
+        } else {
+            command_value = command.command_value;
+        }
+        ros_msg.axes.push_back(command_value);
+    }
+    ros_pub_.publish(ros_msg);
+}
+
+void RawCommandUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
+    if (uavcan_msg.cmd.size() <= 0 || uavcan_msg.cmd.size() > 20) {
+        return;
+    }
+
+    sensor_msgs::Joy ros_msg;
+    ros_msg.header.stamp = ros::Time::now();
+    for (auto cmd : uavcan_msg.cmd) {
+        if (cmd >= 0) {
+            ros_msg.axes.push_back(cmd / 8091.0);
+        } else {
+            ros_msg.axes.push_back(cmd / 8092.0);
+        }
+    }
+    ros_pub_.publish(ros_msg);
 }
 
 
@@ -56,7 +83,8 @@ void AhrsSolutionUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructur
 
 
 void ArmUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) {
-    ros_msg_.data = (uavcan_msg.status == 255);
+    constexpr const uint8_t STATUS_FULLY_ARMED = 255;
+    ros_msg_.data = (uavcan_msg.status == STATUS_FULLY_ARMED);
     ros_pub_.publish(ros_msg_);
 }
 
@@ -189,8 +217,10 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
                                                  UavcanNode& uavcan_node,
                                                  const char* ros_topic) {
     std::unique_ptr<Converter> converter(nullptr);
-    if (converter_name.compare("ActuatorsUavcanToRos") == 0) {
-        converter = std::unique_ptr<Converter>(new ActuatorsUavcanToRos(ros_node, uavcan_node, ros_topic));
+    if (converter_name.compare("RawCommandUavcanToRos") == 0) {
+        converter = std::unique_ptr<Converter>(new RawCommandUavcanToRos(ros_node, uavcan_node, ros_topic));
+    } else if (converter_name.compare("ArrayCommandUavcanToRos") == 0) {
+        converter = std::unique_ptr<Converter>(new ArrayCommandUavcanToRos(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("AhrsSolutionUavcanToRos") == 0) {
         converter = std::unique_ptr<Converter>(new AhrsSolutionUavcanToRos(ros_node, uavcan_node, ros_topic));
     } else if (converter_name.compare("ArmUavcanToRos") == 0) {

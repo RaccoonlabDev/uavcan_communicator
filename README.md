@@ -14,11 +14,12 @@ The tables below represent the supported conversions:
 
 | № | Brige name |ROS msg                               | DroneCAN msg                                     |
 | - | ---------- | ------------------------------------ |----------------------------------------------- |
-| 1 | ActuatorsUavcanToRos  | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
-| 2 | ArmUavcanToRos         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [safety::ArmingStatus](https://dronecan.github.io/Specification/7._List_of_standard_data_types/#armingstatus) |
-| 3 | AhrsSolutionUavcanToRos | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
-| 4 | EscStatusUavcanToRos | [mavros_msgs::ESCTelemetryItem](http://docs.ros.org/en/api/mavros_msgs/html/msg/ESCTelemetryItem.html) | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
-| 5 | CircuitStatusUavcanToRos | [mavros_msgs::BatteryStatus](http://docs.ros.org/en/api/mavros_msgs/html/msg/BatteryStatus.html) | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
+| 1 | RawCommandUavcanToRos | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
+| 2 | ArrayCommandUavcanToRos | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [actuator::ArrayCommand](https://dronecan.github.io/Specification/7._List_of_standard_data_types/#arraycommand)             |
+| 3 | ArmUavcanToRos         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [safety::ArmingStatus](https://dronecan.github.io/Specification/7._List_of_standard_data_types/#armingstatus) |
+| 4 | AhrsSolutionUavcanToRos | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
+| 5 | EscStatusUavcanToRos | [mavros_msgs::ESCTelemetryItem](http://docs.ros.org/en/api/mavros_msgs/html/msg/ESCTelemetryItem.html) | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
+| 6 | CircuitStatusUavcanToRos | [mavros_msgs::BatteryStatus](http://docs.ros.org/en/api/mavros_msgs/html/msg/BatteryStatus.html) | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
 
 **ROS->DroneCAN**
 

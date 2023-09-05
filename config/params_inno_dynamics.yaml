@@ -1,6 +1,7 @@
 uavcan_node_id:           42
-uavcan_node_name:         "inno.dynamics"
-bridges:                  ["ActuatorsUavcanToRos",              "/uav/actuators",
+uavcan_node_name:         "dynamics"
+bridges:                  ["RawCommandUavcanToRos",             "/uav/actuators",
+                           "ArrayCommandUavcanToRos",           "/uav/servo",
                            "ArmUavcanToRos",                    "/uav/arm",
 
                            "BaroStaticPressureRosToUavcan",     "/uav/static_pressure",

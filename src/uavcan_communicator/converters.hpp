@@ -38,6 +38,7 @@
 #include <string>
 
 #include <uavcan/uavcan.hpp>
+#include <uavcan/equipment/actuator/ArrayCommand.hpp>
 #include <uavcan/equipment/ahrs/MagneticFieldStrength.hpp>
 #include <uavcan/equipment/ahrs/RawIMU.hpp>
 #include <uavcan/equipment/ahrs/Solution.hpp>
@@ -108,14 +109,24 @@ protected:
 };
 
 
-class ActuatorsUavcanToRos: public UavcanToRosConverter<
+class RawCommandUavcanToRos: public UavcanToRosConverter<
     uavcan::equipment::esc::RawCommand,
     sensor_msgs::Joy> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 public:
-    ActuatorsUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+    RawCommandUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
         UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
 };
+
+class ArrayCommandUavcanToRos: public UavcanToRosConverter<
+    uavcan::equipment::actuator::ArrayCommand,
+    sensor_msgs::Joy> {
+    void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
+public:
+    ArrayCommandUavcanToRos(ros::NodeHandle& ros_node, UavcanNode& uavcan_node, const char* ros_topic):
+        UavcanToRosConverter(ros_node, uavcan_node, ros_topic) { }
+};
+
 
 class AhrsSolutionUavcanToRos: public UavcanToRosConverter<
     uavcan::equipment::ahrs::Solution,
