@@ -13,27 +13,26 @@ jobs:
       image: ros:noetic
     steps:
       - run: apt-get update && apt-get install -y git
-      - run: if [[ "$ROS_DISTRO" = "noetic" ]] ;  then apt-get install -y python3-pip ros-noetic-catkin python3-catkin-tools ; fi
-      - run: if [[ "$ROS_DISTRO" = "melodic" ]] ; then apt-get install -y python-catkin-tools python-pip python3-pip python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential python-catkin-tools ; fi
+      - run: apt-get install -y python3-pip ros-noetic-catkin python3-catkin-tools
 
       - uses: actions/checkout@v2
         with:
-          path: catkin_ws/src/uavcan_communicator
+          path: catkin_ws/src/dronecan_communicator
           submodules: recursive
 
       - name: Install requirements
         run: |
-          cd catkin_ws/src/uavcan_communicator && \
-          ./scripts/install_requirements.sh && \
+          cd catkin_ws/src/dronecan_communicator
+          ./scripts/install_requirements.sh
           ./scripts/install_libuavcan.sh
 
       # - name: Generate custom dsdl
       #   run: |
-      #     cd catkin_ws/src/uavcan_communicator && \
+      #     cd catkin_ws/src/dronecan_communicator
       #     ./scripts/compile_dsdl.sh
 
       - name: catkin build
         run: |
-          source /opt/ros/$ROS_DISTRO/setup.bash && \
-          cd catkin_ws && \
+          source /opt/ros/$ROS_DISTRO/setup.bash
+          cd catkin_ws
           catkin build

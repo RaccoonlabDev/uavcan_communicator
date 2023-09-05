@@ -3,7 +3,7 @@
 print_help() {
    echo "Wrapper under docker API for DrobeCAN communicator.
 It encapsulates all necessary docker flags and properly handles image versions.
-https://github.com/RaccoonlabDev/cyphal_communicator
+https://github.com/RaccoonlabDev/uavcan_communicator
 
 usage: docker.sh [command]
 

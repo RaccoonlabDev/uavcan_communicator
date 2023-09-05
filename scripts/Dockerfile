@@ -11,7 +11,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y git ros-$ROS_DIST
 RUN if [[ "$ROS_DISTRO" = "melodic" ]] ; then apt-get install -y python-pip python-catkin-tools ; fi
 
 # 2. Install package requirements
-COPY scripts/ scripts/
+COPY scripts/install_libuavcan.sh scripts/install_libuavcan.sh
+COPY scripts/install_requirements.sh scripts/install_requirements.sh
+COPY scripts/requirements.txt scripts/requirements.txt
 COPY libs/ libs/
 RUN scripts/install_requirements.sh
 RUN scripts/install_libuavcan.sh

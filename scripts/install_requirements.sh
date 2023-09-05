@@ -1,14 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-cd "$(dirname "$0")"
-sudo apt-get install -y can-utils  \
-                        iputils-ping    \
-                        iproute2        \
-                        net-tools       \
-                        tcpdump         \
-                        nmap            \
-                        socat           \
-                        kmod            \
-                        ros-$ROS_DISTRO-mavros-msgs
-
-pip install -r requirements.txt
+sudo apt-get install -y can-utils ros-$ROS_DISTRO-mavros-msgs
+pip install -r $SCRIPT_DIR/requirements.txt

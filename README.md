@@ -1,10 +1,10 @@
 # DroneCAN communicator [![Build Status](https://build.ros.org/job/Ndev__uavcan_communicator__ubuntu_focal_amd64/badge/icon)](https://build.ros.org/job/Ndev__uavcan_communicator__ubuntu_focal_amd64/) [![Build Status](https://build.ros.org/job/Ndev_db__uavcan_communicator__debian_buster_amd64/badge/icon)](https://build.ros.org/job/Ndev_db__uavcan_communicator__debian_buster_amd64/) [![Build Status](https://build.ros.org/job/Mdev__uavcan_communicator__ubuntu_bionic_amd64/badge/icon)](https://build.ros.org/job/Mdev__uavcan_communicator__ubuntu_bionic_amd64/)
 
+> It is recommended to use [Cyphal communicator](https://github.com/RaccoonlabDev/cyphal_communicator) in new designs.
+
 DroneCAN communicator converts DroneCAN messages to ROS and vice versa.
 
 It covers a minimal set of sensors required for such applications as Ardupilot/PX4 DroneCAN HITL simulation. This communicator can be used for other purposes as well.
-
-> It is recommended to use [Cyphal communicator](https://github.com/RaccoonlabDev/cyphal_communicator) in new designs.
 
 ## 1. Conversions
 
@@ -15,7 +15,7 @@ The tables below represent the supported conversions:
 | № | Brige name |ROS msg                               | DroneCAN msg                                     |
 | - | ---------- | ------------------------------------ |----------------------------------------------- |
 | 1 | ActuatorsUavcanToRos  | [sensor_msgs/Joy](https://docs.ros.org/en/api/sensor_msgs/html/msg/Joy.html)                       | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand)             |
-| 2 | ArmUavcanToRos         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [esc::RawCommand](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#rawcommand) |
+| 2 | ArmUavcanToRos         | [std_msgs::Bool](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/Bool.html)             | [safety::ArmingStatus](https://dronecan.github.io/Specification/7._List_of_standard_data_types/#armingstatus) |
 | 3 | AhrsSolutionUavcanToRos | [sensor_msgs::Imu](http://docs.ros.org/en/melodic/api/sensor_msgs/html/msg/Imu.html)             | [ahrs::AhrsSolution](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#solution) |
 | 4 | EscStatusUavcanToRos | [mavros_msgs::ESCTelemetryItem](http://docs.ros.org/en/api/mavros_msgs/html/msg/ESCTelemetryItem.html) | [esc::Status](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#status-2) |
 | 5 | CircuitStatusUavcanToRos | [mavros_msgs::BatteryStatus](http://docs.ros.org/en/api/mavros_msgs/html/msg/BatteryStatus.html) | [power::CircuitStatus](https://legacy.uavcan.org/Specification/7._List_of_standard_data_types/#circuitstatus) |
@@ -47,7 +47,7 @@ You need to perform the following steps to use this package:
 
 ```
 cd catkin_ws/src
-git clone --recursive git@github.com:InnopolisAero/uavcan_communicator.git
+git clone --recursive git@github.com:RaccoonlabDev/uavcan_communicator.git
 cd uavcan_communicator
 git submodule update --init --recursive
 ./scripts/install_requirements.sh

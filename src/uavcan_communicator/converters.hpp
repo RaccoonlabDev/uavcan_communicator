@@ -51,6 +51,7 @@
 #include <uavcan/equipment/ice/reciprocating/Status.hpp>
 #include <uavcan/equipment/power/CircuitStatus.hpp>
 #include <uavcan/equipment/power/BatteryInfo.hpp>
+#include <uavcan/equipment/safety/ArmingStatus.hpp>
 
 constexpr unsigned NodeMemoryPoolSize = 16384;
 typedef uavcan::Node<NodeMemoryPoolSize> UavcanNode;
@@ -127,7 +128,7 @@ public:
 
 
 class ArmUavcanToRos: public UavcanToRosConverter<
-    uavcan::equipment::esc::RawCommand,
+    uavcan::equipment::safety::ArmingStatus,
     std_msgs::Bool> {
     void uavcan_callback(const uavcan::ReceivedDataStructure<IN_UAVCAN_MSG>& uavcan_msg) override;
 
