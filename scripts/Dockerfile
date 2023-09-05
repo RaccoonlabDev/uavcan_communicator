@@ -37,5 +37,5 @@ COPY launch/ launch/
 CMD source /opt/ros/$ROS_DISTRO/setup.bash && \
     source /catkin_ws/devel/setup.bash && \
     echo "main process has been started" && \
-    roslaunch uavcan_communicator inno_dynamics_communicator.launch && \
+    roslaunch uavcan_communicator example_communicator.launch && \
     echo "container has been finished"

@@ -93,7 +93,7 @@ int main(int argc, char** argv) {
             std::cout << idx / 2 << ". Creation of converter with name `" << bridge_name << "` "
                       << "and topic `" << topic_name << "` has been ";
             if (converter.get() == nullptr) {
-                std::cout << "failed: wrong converter name. Finish." << std::endl;
+                std::cout << "\033[1;31m" << "failed: wrong converter name. Exit." << "\033[0m" << std::endl;
                 return -1;
             } else {
                 converters.push_back(std::move(converter));

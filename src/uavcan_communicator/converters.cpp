@@ -250,7 +250,7 @@ std::unique_ptr<Converter> instantiate_converter(std::string converter_name,
     } else if (converter_name.compare("BatteryInfoRosToUavcan") == 0) {
         converter = std::unique_ptr<Converter>(new BatteryInfoRosToUavcan(ros_node, uavcan_node, ros_topic));
     } else {
-        std::cout << "ERROR: instantiate_converter, wrong converter name" << std::endl;
+        std::cout << "\033[1;31m" << "ERROR: instantiate_converter, wrong converter name" << "\033[0m" << std::endl;
     }
 
     return converter;

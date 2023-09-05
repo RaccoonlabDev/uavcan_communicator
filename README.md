@@ -64,7 +64,7 @@ git submodule update --init --recursive
 
 Example:
 ```
-roslaunch uavcan_communicator inno_dynamics_communicator.launch
+roslaunch uavcan_communicator example_communicator.launch
 ```
 
 ## 4. Usage example

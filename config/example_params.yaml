@@ -1,5 +1,5 @@
 uavcan_node_id:           42
-uavcan_node_name:         "dynamics"
+uavcan_node_name:         "example"
 bridges:                  ["RawCommandUavcanToRos",             "/uav/actuators",
                            "ArrayCommandUavcanToRos",           "/uav/servo",
                            "ArmUavcanToRos",                    "/uav/arm",
