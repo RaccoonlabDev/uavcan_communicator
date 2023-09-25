@@ -19,6 +19,15 @@
 #include "converters.hpp"
 #include <algorithm>
 
+float clamp_float(float value, float min, float max) {
+    if (value < min) {
+        value = min;
+    } else if (value > max) {
+        value = max;
+    }
+
+    return value;
+}
 
 /**
  * @note It is expected that all actuator_id are exactly the same as their indexes in the array
@@ -31,15 +40,7 @@ void ArrayCommandUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructur
     sensor_msgs::Joy ros_msg;
     ros_msg.header.stamp = ros::Time::now();
     for (auto command : uavcan_msg.commands) {
-        float command_value;
-        if (command.command_value < 1.0) {
-            command_value = -1.0f;
-        } else if (command.command_value > 1.0) {
-            command_value = +1.0f;
-        } else {
-            command_value = command.command_value;
-        }
-        ros_msg.axes.push_back(command_value);
+        ros_msg.axes.push_back(clamp_float(command.command_value, -1.0, +1.0));
     }
     ros_pub_.publish(ros_msg);
 }
@@ -52,11 +53,7 @@ void RawCommandUavcanToRos::uavcan_callback(const uavcan::ReceivedDataStructure<
     sensor_msgs::Joy ros_msg;
     ros_msg.header.stamp = ros::Time::now();
     for (auto cmd : uavcan_msg.cmd) {
-        if (cmd >= 0) {
-            ros_msg.axes.push_back(cmd / 8091.0);
-        } else {
-            ros_msg.axes.push_back(cmd / 8092.0);
-        }
+        ros_msg.axes.push_back(cmd >= 0 ? (cmd / 8091.0) : (cmd / 8092.0));
     }
     ros_pub_.publish(ros_msg);
 }
