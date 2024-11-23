@@ -51,9 +51,7 @@ cd catkin_ws/src
 git clone --recursive git@github.com:RaccoonlabDev/uavcan_communicator.git
 cd uavcan_communicator
 git submodule update --init --recursive
-./scripts/install_requirements.sh
-./scripts/install_libuavcan.sh
-./scripts/compile_dsdl.sh
+./scripts/install.sh
 ```
 
 ## 3. Running

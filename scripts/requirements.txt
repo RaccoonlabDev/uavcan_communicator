@@ -1,3 +1,0 @@
-pyuavcan_v0
-monotonic # for python 2.7
-pyquaternion

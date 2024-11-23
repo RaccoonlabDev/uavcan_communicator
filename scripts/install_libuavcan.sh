@@ -1,11 +1,14 @@
 #!/bin/bash
-# Instruction from https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application
+CRNT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+REPO_DIR="$(dirname "$CRNT_DIR")"
 
-cd "$(dirname "$0")"
-cd ../libs/libuavcan
+set -e
+
+# Install libuavcan
+# Instruction from https://github.com/UAVCAN/libuavcan/tree/legacy-v0#using-in-a-gnulinux-application
+cd ${REPO_DIR}/libs/libuavcan
 mkdir -p build
 cd build
-rm -r *  # handle case if build directory is not empty bacause it may lead to fail
 cmake ..
 make
 sudo make install

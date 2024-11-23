@@ -12,27 +12,16 @@ jobs:
     container:
       image: ros:noetic
     steps:
-      - run: apt-get update && apt-get install -y git
-      - run: apt-get install -y python3-pip ros-noetic-catkin python3-catkin-tools
+      - name: Handle issue with actions/checkout when Git version is less than 2.18
+        run: apt-get update && apt-get install -y git
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           path: catkin_ws/src/dronecan_communicator
           submodules: recursive
 
       - name: Install requirements
-        run: |
-          cd catkin_ws/src/dronecan_communicator
-          ./scripts/install_requirements.sh
-          ./scripts/install_libuavcan.sh
-
-      # - name: Generate custom dsdl
-      #   run: |
-      #     cd catkin_ws/src/dronecan_communicator
-      #     ./scripts/compile_dsdl.sh
+        run: ./catkin_ws/src/dronecan_communicator/scripts/install.sh
 
       - name: catkin build
-        run: |
-          source /opt/ros/$ROS_DISTRO/setup.bash
-          cd catkin_ws
-          catkin build
+        run: source /opt/ros/$ROS_DISTRO/setup.bash && cd catkin_ws && catkin build
