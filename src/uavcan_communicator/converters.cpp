@@ -127,14 +127,11 @@ void DiffPressureRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
     broadcast();
 }
 
-// Simulate GNSS timestamp by wrapping the time to align with a typical GNSS time reference (e.g., GPS epoch).
-// GPS epoch started on January 6, 1980, so we calculate the time since then.
+// Unix time (used by std::chrono) started at 00:00 UTC on January 1, 1970
 uint64_t simulate_gnss_utc_timestamp_usec() {
     auto now = std::chrono::system_clock::now();
     auto duration_since_epoch = std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch());
-    constexpr uint64_t gps_epoch_offset_usec = 315964800000000ULL;
-    uint64_t gnss_utc_timestamp_usec = duration_since_epoch.count() - gps_epoch_offset_usec;
-    return gnss_utc_timestamp_usec;
+    return duration_since_epoch.count();
 }
 
 void GpsRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
