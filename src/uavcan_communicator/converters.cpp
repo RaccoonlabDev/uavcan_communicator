@@ -140,6 +140,7 @@ void GpsRosToUavcan::ros_callback(IN_ROS_MSG_PTR in_ros_msg) {
 
     out_uavcan_msg_.latitude_deg_1e8 = in_ros_msg->latitude * 1e8;
     out_uavcan_msg_.longitude_deg_1e8 = in_ros_msg->longitude * 1e8;
+    out_uavcan_msg_.height_ellipsoid_mm = in_ros_msg->altitude * 1e3;
     out_uavcan_msg_.height_msl_mm = in_ros_msg->altitude * 1e3;
     broadcast();
 }
